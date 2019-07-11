@@ -1,8 +1,7 @@
 package com.jailson.mylist.activity;
 
 import android.app.Dialog;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -11,7 +10,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.jailson.mylist.R;
@@ -119,7 +117,9 @@ public class LoginActivity extends AppCompatActivity {
             User user = this.service.login(email, password, this.progressBar);
             if(user != null){
 
-                Toast.makeText(this, user.getName(), Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(this, ListsActivity.class);
+                intent.putExtra("user", user);
+                startActivity(intent);
             }else{
 
                 Toast.makeText(this, "Fail", Toast.LENGTH_LONG).show();

@@ -8,4 +8,8 @@
     <string name="register3">Cadastrar</string>
     <string name="enter">Entrar</string>
     <string name="name">Nome</string>
+    <string name="mylists">Minhas Listas</string>
+    <string name="newlist">Nova Lista</string>
+    <string name="description">Descrição</string>
+    <string name="add">Adicionar</string>
 </resources>

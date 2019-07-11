@@ -2,10 +2,14 @@ package com.jailson.mylist.service;
 
 import android.widget.ProgressBar;
 
+import com.jailson.mylist.http.AddList;
+import com.jailson.mylist.http.DeleteList;
+import com.jailson.mylist.http.GetLists;
 import com.jailson.mylist.http.Login;
 import com.jailson.mylist.http.RegisterUser;
 import com.jailson.mylist.object.User;
 
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 public class Service {
@@ -22,5 +26,23 @@ public class Service {
 
         RegisterUser registerUser = new RegisterUser(this.url + "user/register.php", name, email, password);
         return registerUser.execute().get();
+    }
+
+    public List<com.jailson.mylist.object.List> getLists(int id_user) throws ExecutionException, InterruptedException {
+
+        GetLists getLists = new GetLists(this.url + "list/get_list.php", id_user);
+        return getLists.execute().get();
+    }
+
+    public boolean deleteList(int id) throws ExecutionException, InterruptedException {
+
+        DeleteList deleteList = new DeleteList(this.url + "list/delete_list.php", id);
+        return deleteList.execute().get();
+    }
+
+    public boolean addList(String name, int id_user) throws ExecutionException, InterruptedException {
+
+        AddList addList = new AddList(this.url + "list/add_list.php", name, id_user);
+        return addList.execute().get();
     }
 }
