@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">My List</string>
+    <string name="login">Login</string>
+    <string name="email">Email</string>
+    <string name="password">Senha</string>
+    <string name="register">Cadastro</string>
+    <string name="enter">Entrar</string>
 </resources>
