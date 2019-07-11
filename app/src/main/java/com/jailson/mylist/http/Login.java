@@ -2,8 +2,6 @@ package com.jailson.mylist.http;
 
 import android.os.AsyncTask;
 import android.util.Log;
-import android.view.View;
-import android.widget.ProgressBar;
 
 import com.google.gson.Gson;
 import com.jailson.mylist.object.User;
@@ -23,14 +21,12 @@ public class Login extends AsyncTask<Void, Void, User> {
     private String url;
     private String email;
     private String password;
-    private ProgressBar progressBar;
 
-    public Login(String url, String email, String password, ProgressBar progressBar){
+    public Login(String url, String email, String password){
 
         this.url = url;
         this.email = email;
         this.password = password;
-        this.progressBar = progressBar;
     }
 
     @Override
