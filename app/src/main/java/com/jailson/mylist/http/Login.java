@@ -53,7 +53,7 @@ public class Login extends AsyncTask<Void, Void, User> {
             if(connection.getResponseCode() == 200){
 
                 String userJsonStr;
-                Scanner scanner = new Scanner(link.openStream());
+                Scanner scanner = new Scanner(connection.getInputStream());
                 userJsonStr = scanner.next();
                 while(scanner.hasNext()){
 
