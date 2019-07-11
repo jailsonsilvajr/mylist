@@ -1,12 +1,17 @@
 package com.jailson.mylist.activity;
 
+import android.app.Dialog;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.jailson.mylist.R;
@@ -23,15 +28,13 @@ public class LoginActivity extends AppCompatActivity {
     private Button button_register;
     private Button button_enter;
 
-    private Service service;
+    private final Service service = new Service();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
-        this.service = new Service();
 
         this.progressBar = findViewById(R.id.pbLogin_enter);
         this.progressBar.setVisibility(View.GONE);
@@ -58,17 +61,62 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    private void clickBtnRegister(){}
+    private void clickBtnRegister(){
+
+        final Dialog dialog = new Dialog(this);
+        dialog.setContentView(R.layout.register_popup);
+
+        ImageView imgRegister_close = dialog.findViewById(R.id.imgRegister_close);
+        final EditText etRegister_name = dialog.findViewById(R.id.etRegister_name);
+        final EditText etRegister_email = dialog.findViewById(R.id.etRegister_email);
+        final EditText etRegister_password = dialog.findViewById(R.id.etRegister_password);
+        Button btnRegister_register = dialog.findViewById(R.id.btnRegister_register);
+
+        imgRegister_close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                dialog.dismiss();
+            }
+        });
+
+        btnRegister_register.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                String name = etRegister_name.getText().toString();
+                String email = etRegister_email.getText().toString();
+                String password = etRegister_password.getText().toString();
+
+                try {
+
+                    User user = service.register_user(name, email, password);
+                    if(user != null){
+
+                        Toast.makeText(LoginActivity.this, "Success", Toast.LENGTH_LONG).show();
+                        dialog.dismiss();
+                    }else{
+
+                        Toast.makeText(LoginActivity.this, "Fail", Toast.LENGTH_LONG).show();
+                    }
+                } catch (ExecutionException e) {
+                    e.printStackTrace();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        dialog.show();
+    }
 
     private void clickBtnEnter(){
-
-        this.progressBar.setVisibility(View.VISIBLE);
 
         String email = this.editText_email.getText().toString();
         String password = this.editText_password.getText().toString();
         try {
 
-            User user = this.service.login(email, password);
+            User user = this.service.login(email, password, this.progressBar);
             if(user != null){
 
                 Toast.makeText(this, user.getName(), Toast.LENGTH_LONG).show();
@@ -76,7 +124,6 @@ public class LoginActivity extends AppCompatActivity {
 
                 Toast.makeText(this, "Fail", Toast.LENGTH_LONG).show();
             }
-            this.progressBar.setVisibility(View.GONE);
         } catch (ExecutionException e) {
 
             Log.i("Login: ", e.getMessage());

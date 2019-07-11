@@ -1,9 +1,6 @@
 package com.jailson.mylist.http;
 
 import android.os.AsyncTask;
-import android.util.Log;
-import android.view.View;
-import android.widget.ProgressBar;
 
 import com.google.gson.Gson;
 import com.jailson.mylist.object.User;
@@ -18,27 +15,19 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Scanner;
 
-public class Login extends AsyncTask<Void, Void, User> {
+public class RegisterUser extends AsyncTask<Void, Void, User> {
 
     private String url;
+    private String name;
     private String email;
     private String password;
 
-    private ProgressBar progressBar;
-
-    public Login(String url, String email, String password, ProgressBar progressBar){
+    public RegisterUser(String url, String name, String email, String password){
 
         this.url = url;
+        this.name = name;
         this.email = email;
         this.password = password;
-        this.progressBar = progressBar;
-    }
-
-    @Override
-    protected void onPreExecute() {
-
-        super.onPreExecute();
-        this.progressBar.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -48,12 +37,12 @@ public class Login extends AsyncTask<Void, Void, User> {
 
             URL link = new URL(this.url);
             HttpURLConnection connection = (HttpURLConnection) link.openConnection();
-
             connection.setRequestMethod("POST");
             connection.setRequestProperty("Accept", "application/json");
             connection.setDoOutput(true);
 
             JSONObject jsonObject = new JSONObject();
+            jsonObject.put("name", this.name);
             jsonObject.put("email", this.email);
             jsonObject.put("password", this.password);
 
@@ -64,9 +53,8 @@ public class Login extends AsyncTask<Void, Void, User> {
 
             if(connection.getResponseCode() == 200){
 
-                String userJsonStr;
                 Scanner scanner = new Scanner(connection.getInputStream());
-                userJsonStr = scanner.next();
+                String userJsonStr = scanner.next();
                 while(scanner.hasNext()){
 
                     userJsonStr += " ";
@@ -75,23 +63,16 @@ public class Login extends AsyncTask<Void, Void, User> {
 
                 Gson gson = new Gson();
                 User user = gson.fromJson(userJsonStr, User.class);
-
-                this.progressBar.setVisibility(View.GONE);
                 return user;
             }
-
         } catch (MalformedURLException e) {
-
-            Log.i("Login", e.getMessage());
+            e.printStackTrace();
         } catch (IOException e) {
-
-            Log.i("Login", e.getMessage());
+            e.printStackTrace();
         } catch (JSONException e) {
-
-            Log.i("Login", e.getMessage());
+            e.printStackTrace();
         }
 
-        this.progressBar.setVisibility(View.GONE);
         return null;
     }
 }

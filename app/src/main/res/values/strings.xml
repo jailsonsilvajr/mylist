@@ -4,5 +4,8 @@
     <string name="email">Email</string>
     <string name="password">Senha</string>
     <string name="register">Cadastro</string>
+    <string name="register2">Cadastre-se</string>
+    <string name="register3">Cadastrar</string>
     <string name="enter">Entrar</string>
+    <string name="name">Nome</string>
 </resources>
