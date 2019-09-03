@@ -8,4 +8,6 @@
     <color name="colorPrimaryDark">#534ef1</color>
     <color name="colorAccent">#ffffff</color>
     <color name="black">#000000</color>
+    <color name="red">#dc7f81</color>
+    <color name="green">#9eea86</color>
 </resources>

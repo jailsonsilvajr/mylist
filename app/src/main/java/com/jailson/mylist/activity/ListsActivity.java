@@ -1,12 +1,14 @@
 package com.jailson.mylist.activity;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -63,6 +65,22 @@ public class ListsActivity extends AppCompatActivity {
         this.lvLists_lists = findViewById(R.id.lvLists_lists);
         this.adapterLists = new AdapterLists(this.lists, this);
         this.lvLists_lists.setAdapter(adapterLists);
+
+        this.lvLists_lists.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                goActivityItens(position);
+            }
+        });
+    }
+
+    public void goActivityItens(int position){
+
+        com.jailson.mylist.object.List list = lists.get(position);
+        Intent intent = new Intent(this, ItensActivity.class);
+        intent.putExtra("list", list);
+        startActivity(intent);
     }
 
     /*@Override

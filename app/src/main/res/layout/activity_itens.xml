@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.ItensActivity"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/linearLayout_namelist"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:paddingTop="16dp"
+        android:background="@color/colorPrimary"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tvItens_nameList"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/myitens"
+            android:gravity="center_horizontal"
+            android:layout_gravity="center_vertical"
+            android:fontFamily="casual"
+            android:textColor="@color/colorAccent"
+            android:textSize="12pt"/>
+
+        <TextView
+            android:id="@+id/tvItens_priceList"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="R$ 10.00"
+            android:gravity="center_horizontal"
+            android:fontFamily="casual"
+            android:textColor="@color/colorAccent"
+            android:textSize="8pt"/>
+    </LinearLayout>
+
+    <ListView
+        android:id="@+id/lvItens_itens"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:elevation="5dp"
+        android:layout_below="@+id/linearLayout_namelist">
+    </ListView>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_add_iten"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:src="@drawable/icon_add_food"
+        android:layout_margin="16dp" />
+
+</RelativeLayout>

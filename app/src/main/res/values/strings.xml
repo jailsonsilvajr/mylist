@@ -8,8 +8,19 @@
     <string name="register3">Cadastrar</string>
     <string name="enter">Entrar</string>
     <string name="name">Nome</string>
+    <string name="name2">Nome:</string>
     <string name="mylists">Minhas Listas</string>
+    <string name="myitens">Itens</string>
     <string name="newlist">Nova Lista</string>
     <string name="description">Descrição</string>
     <string name="add">Adicionar</string>
+    <string name="edit_product">Editar Produto</string>
+    <string name="add_product">Edicionar Produto</string>
+    <string name="load_img">Carregar imagem:</string>
+    <string name="name_product">Nome do produto</string>
+    <string name="mark">Marca</string>
+    <string name="price">Preço</string>
+    <string name="quantity">Quantidade:</string>
+    <string name="delete">Deletar</string>
+    <string name="save">Salvar</string>
 </resources>
