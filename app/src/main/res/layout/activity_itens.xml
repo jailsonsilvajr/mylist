@@ -49,13 +49,4 @@
         android:layout_below="@+id/linearLayout_namelist">
     </ListView>
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab_add_iten"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentBottom="true"
-        android:src="@drawable/icon_add_food"
-        android:layout_margin="16dp" />
-
 </RelativeLayout>

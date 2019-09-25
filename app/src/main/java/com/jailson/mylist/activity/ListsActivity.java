@@ -2,8 +2,7 @@ package com.jailson.mylist.activity;
 
 import android.app.Dialog;
 import android.content.Intent;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -41,15 +40,6 @@ public class ListsActivity extends AppCompatActivity {
 
         //getSupportActionBar().setTitle("");
 
-        FloatingActionButton floatingActionButton = findViewById(R.id.fab);
-        floatingActionButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                clickBtnAddList();
-            }
-        });
-
         this.user = (User) getIntent().getSerializableExtra("user");
 
         try {
@@ -83,10 +73,10 @@ public class ListsActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    /*@Override
-    public boolean onCreateOptionsMenu(Menu menu) {
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu_list) {
 
-        getMenuInflater().inflate(R.menu.menu, menu);
+        getMenuInflater().inflate(R.menu.menu_list, menu_list);
         return true;
     }
 
@@ -99,11 +89,11 @@ public class ListsActivity extends AppCompatActivity {
 
             clickBtnAddList();
 
-            return true;
+            //return true;
         }
 
         return super.onOptionsItemSelected(item);
-    }*/
+    }
 
     public void clickBtnAddList(){
 

@@ -22,13 +22,13 @@
 
         <activity
             android:name=".activity.ListsActivity"
-            android:theme="@style/NoActionBar">
+            >
 
         </activity>
 
         <activity
             android:name=".activity.ItensActivity"
-            android:theme="@style/NoActionBar">
+            >
 
         </activity>
 

@@ -3,10 +3,11 @@ package com.jailson.mylist.activity;
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v7.app.AppCompatActivity;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -30,7 +31,6 @@ public class ItensActivity extends AppCompatActivity {
     private TextView tvItens_nameList;
     private TextView tvItens_priceList;
     private ListView listView_itens;
-    private FloatingActionButton floatingActionButton;
 
     private ImageView imgEdit_load;
     private ImageView imgAdd;
@@ -65,15 +65,6 @@ public class ItensActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
                 clickItem(position);
-            }
-        });
-
-        this.floatingActionButton = findViewById(R.id.fab_add_iten);
-        this.floatingActionButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                clickAddItem();
             }
         });
     }
@@ -351,5 +342,24 @@ public class ItensActivity extends AppCompatActivity {
         for(int i = 0; i < itens.size(); i++) value += (itens.get(i).getPrice() * itens.get(i).getQtd());
         df = new DecimalFormat("#,###.00");
         tvItens_priceList.setText("R$: " + df.format(value));
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        getMenuInflater().inflate(R.menu.menu_item, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        int id = item.getItemId();
+        if(id == R.id.menuItem_add){
+
+            clickAddItem();
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }
