@@ -1,18 +1,15 @@
 package com.jailson.mylist.activity;
 
-import android.app.Dialog;
 import android.content.Intent;
+
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.jailson.mylist.R;
 import com.jailson.mylist.object.User;
@@ -31,6 +28,8 @@ public class ListsActivity extends AppCompatActivity {
     private final Service service = new Service();
 
     private User user;
+
+    private static final int ACTIVITY_ADDLIST_REQUEST = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,53 +96,28 @@ public class ListsActivity extends AppCompatActivity {
 
         if(id == R.id.menuList_add){
 
-            clickBtnAddList();
+            click_add_list();
         }
 
         return super.onOptionsItemSelected(item);
     }
 
-    public void clickBtnAddList(){
+    private void click_add_list() {
 
-        final Dialog dialog = new Dialog(this);
-        dialog.setContentView(R.layout.list_add_popup);
+        Intent intent = new Intent(this, AddListActivity.class);
+        intent.putExtra("user", this.user);
+        startActivityForResult(intent, ACTIVITY_ADDLIST_REQUEST);
+    }
 
-        ImageView imageView_close = dialog.findViewById(R.id.imgList_close);
-        final EditText editText_name = dialog.findViewById(R.id.etList_name);
-        Button btn_add = dialog.findViewById(R.id.btnList_add);
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
 
-        imageView_close.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        if(requestCode == ACTIVITY_ADDLIST_REQUEST){
+            if( resultCode == RESULT_OK){
 
-                dialog.dismiss();
+                get_lists();
+                show_lists();
             }
-        });
-
-        btn_add.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                try {
-
-                    if(service.addList(editText_name.getText().toString(), user.getId())){
-
-                        lists = service.getLists(user.getId());
-                        adapterLists.setList(lists);
-                        lvLists_lists.setAdapter(adapterLists);
-                        dialog.dismiss();
-                    }else{
-
-                        Toast.makeText(getApplicationContext(), "Fail", Toast.LENGTH_LONG).show();
-                    }
-                } catch (ExecutionException e) {
-                    e.printStackTrace();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-
-        dialog.show();
+        }
     }
 }
