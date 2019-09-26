@@ -38,39 +38,49 @@ public class ListsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lists);
 
-        //getSupportActionBar().setTitle("");
-
         this.user = (User) getIntent().getSerializableExtra("user");
 
-        try {
+        init_views();
+        get_lists();
+        show_lists();
+        click_list();
+    }
 
-            this.lists = this.service.getLists(user.getId());
-            //this.lists = this.service.getLists(2);
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-        this.lvLists_lists = findViewById(R.id.lvLists_lists);
-        this.adapterLists = new AdapterLists(this.lists, this);
-        this.lvLists_lists.setAdapter(adapterLists);
+    private void click_list() {
 
         this.lvLists_lists.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                goActivityItens(position);
+                com.jailson.mylist.object.List list = lists.get(position);
+                Intent intent = new Intent(ListsActivity.this, ItensActivity.class);
+                intent.putExtra("list", list);
+                startActivity(intent);
             }
         });
     }
 
-    public void goActivityItens(int position){
+    private void show_lists() {
 
-        com.jailson.mylist.object.List list = lists.get(position);
-        Intent intent = new Intent(this, ItensActivity.class);
-        intent.putExtra("list", list);
-        startActivity(intent);
+        this.adapterLists = new AdapterLists(this.lists, this);
+        this.lvLists_lists.setAdapter(adapterLists);
+    }
+
+    private void get_lists() {
+
+        try {
+
+            this.lists = this.service.getLists(user.getId());
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void init_views() {
+
+        this.lvLists_lists = findViewById(R.id.lvLists_lists);
     }
 
     @Override
@@ -88,8 +98,6 @@ public class ListsActivity extends AppCompatActivity {
         if(id == R.id.menuList_add){
 
             clickBtnAddList();
-
-            //return true;
         }
 
         return super.onOptionsItemSelected(item);
