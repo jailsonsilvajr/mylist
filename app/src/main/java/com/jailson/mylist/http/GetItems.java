@@ -22,15 +22,10 @@ public class GetItems extends AsyncTask <Void, Void, List<Item> > {
     private String url;
     private int id_list;
 
-    private TextView tvItens_priceList;
-
-    private DecimalFormat df;
-
-    public GetItems(String url, int id_list, TextView tvItens_priceList){
+    public GetItems(String url, int id_list){
 
         this.url = url;
         this.id_list = id_list;
-        this.tvItens_priceList = tvItens_priceList;
     }
 
     @Override
@@ -70,16 +65,6 @@ public class GetItems extends AsyncTask <Void, Void, List<Item> > {
             e.printStackTrace();
         }
 
-
         return null;
-    }
-
-    @Override
-    protected void onPostExecute(List<Item> items) {
-
-        double value = 0.0;
-        for(int i = 0; i < items.size(); i++) value += (items.get(i).getPrice() * items.get(i).getQtd());
-        df = new DecimalFormat("#,###.00");
-        this.tvItens_priceList.setText("R$: " + df.format(value));
     }
 }

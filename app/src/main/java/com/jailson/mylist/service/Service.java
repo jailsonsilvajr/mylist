@@ -52,9 +52,9 @@ public class Service {
         return addList.execute().get();
     }
 
-    public List<Item> getItens(int id_list, TextView textView) throws ExecutionException, InterruptedException {
+    public List<Item> getItens(int id_list) throws ExecutionException, InterruptedException {
 
-        GetItems getItems = new GetItems(this.url + "item/get_item.php", id_list, textView);
+        GetItems getItems = new GetItems(this.url + "item/get_item.php", id_list);
         return getItems.execute().get();
     }
 

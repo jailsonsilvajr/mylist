@@ -36,7 +36,7 @@ public class ItensActivity extends AppCompatActivity {
     private ImageView imgAdd;
 
     private List list;
-    private java.util.List<Item> itens;
+    private java.util.List<Item> items;
     private Service service;
 
     private double value;
@@ -48,18 +48,26 @@ public class ItensActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_itens);
 
+        this.df = new DecimalFormat("#,###.00");
+
         this.service = new Service();
         this.list = (List) getIntent().getSerializableExtra("list");
 
-        this.tvItens_nameList = findViewById(R.id.tvItens_nameList);
-        this.tvItens_nameList.setText(list.getName());
-
-        this.tvItens_priceList = findViewById(R.id.tvItens_priceList);
         getItems();
+        count_value();
+        init_views();
+        show_items();
+        click_item();
+    }
 
-        this.listView_itens = findViewById(R.id.lvItens_itens);
-        AdapterItens adapterItens = new AdapterItens(this.itens, this);
-        this.listView_itens.setAdapter(adapterItens);
+    private void count_value() {
+
+        for(int i = 0; i < this.items.size(); i++) this.value += (this.items.get(i).getPrice() * this.items.get(i).getQtd());
+
+    }
+
+    private void click_item() {
+
         this.listView_itens.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -69,18 +77,35 @@ public class ItensActivity extends AppCompatActivity {
         });
     }
 
+    private void show_items() {
+
+        AdapterItens adapterItens = new AdapterItens(this.items, this);
+        this.listView_itens.setAdapter(adapterItens);
+    }
+
+    private void init_views() {
+
+        this.tvItens_nameList = findViewById(R.id.tvItens_nameList);
+        this.tvItens_priceList = findViewById(R.id.tvItens_priceList);
+        this.listView_itens = findViewById(R.id.lvItens_itens);
+
+        this.tvItens_nameList.setText(list.getName());
+        this.tvItens_priceList.setText("R$: " + this.df.format(this.value));
+    }
+
     private boolean getItems(){
 
         try {
 
-            this.itens = this.service.getItens(this.list.getId(), this.tvItens_priceList);
-            if(this.itens != null) return true;
+            this.items = this.service.getItens(this.list.getId());
+            if(this.items != null) return true;
         } catch (ExecutionException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
 
+        Toast.makeText(this, "Fail", Toast.LENGTH_LONG).show();
         return false;
     }
 
@@ -192,8 +217,9 @@ public class ItensActivity extends AppCompatActivity {
                 if(addItem(item)){
 
                     getItems();
-                    updateValue();
-                    AdapterItens adapterItens = new AdapterItens(itens, ItensActivity.this);
+                    count_value();
+                    init_views();
+                    AdapterItens adapterItens = new AdapterItens(items, ItensActivity.this);
                     listView_itens.setAdapter(adapterItens);
                     dialog.dismiss();
                 }else{
@@ -219,7 +245,7 @@ public class ItensActivity extends AppCompatActivity {
         final EditText etEdit_price = dialog.findViewById(R.id.etEdit_price);
         final TextView tvEdit_qtd = dialog.findViewById(R.id.tvEdit_qtd);
 
-        Item item = itens.get(position);
+        Item item = items.get(position);
 
         etEdit_name.setText(item.getName());
         etEdit_mark.setText(item.getMark());
@@ -271,11 +297,12 @@ public class ItensActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                if(deleteItem(itens.get(position))){
+                if(deleteItem(items.get(position))){
 
                     getItems();
-                    updateValue();
-                    AdapterItens adapterItens = new AdapterItens(itens, ItensActivity.this);
+                    count_value();
+                    init_views();
+                    AdapterItens adapterItens = new AdapterItens(items, ItensActivity.this);
                     listView_itens.setAdapter(adapterItens);
                     dialog.dismiss();
                 }else{
@@ -290,16 +317,17 @@ public class ItensActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                itens.get(position).setName(etEdit_name.getText().toString());
-                itens.get(position).setMark(etEdit_mark.getText().toString());
-                itens.get(position).setPrice(Double.parseDouble(etEdit_price.getText().toString()));
-                itens.get(position).setQtd(Integer.parseInt(tvEdit_qtd.getText().toString()));
+                items.get(position).setName(etEdit_name.getText().toString());
+                items.get(position).setMark(etEdit_mark.getText().toString());
+                items.get(position).setPrice(Double.parseDouble(etEdit_price.getText().toString()));
+                items.get(position).setQtd(Integer.parseInt(tvEdit_qtd.getText().toString()));
 
-                if(updateItem(itens.get(position))){
+                if(updateItem(items.get(position))){
 
                     getItems();
-                    updateValue();
-                    AdapterItens adapterItens = new AdapterItens(itens, ItensActivity.this);
+                    count_value();
+                    init_views();
+                    AdapterItens adapterItens = new AdapterItens(items, ItensActivity.this);
                     listView_itens.setAdapter(adapterItens);
                     dialog.dismiss();
                 }else{
@@ -334,14 +362,6 @@ public class ItensActivity extends AppCompatActivity {
                 }
             }
         }
-    }
-
-    private void updateValue(){
-
-        value = 0;
-        for(int i = 0; i < itens.size(); i++) value += (itens.get(i).getPrice() * itens.get(i).getQtd());
-        df = new DecimalFormat("#,###.00");
-        tvItens_priceList.setText("R$: " + df.format(value));
     }
 
     @Override
