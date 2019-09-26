@@ -1,15 +1,12 @@
 package com.jailson.mylist.activity;
 
-import android.app.Dialog;
 import android.content.Intent;
-//import android.support.v7.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -35,60 +32,63 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        this.progressBar = findViewById(R.id.pbLogin_enter);
+        init_views();
         this.progressBar.setVisibility(View.GONE);
 
-        this.editText_email = findViewById(R.id.etLogin_email);
-        this.editText_password = findViewById(R.id.etLogin_password);
-        this.button_register = findViewById(R.id.btnLogin_register);
-        this.button_enter = findViewById(R.id.btnLogin_enter);
+        click_button_register();
+        click_button_enter();
+    }
 
-        this.button_register.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                clickBtnRegister();
-            }
-        });
+    private void click_button_enter() {
 
         this.button_enter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                clickBtnEnter();
+                String email = editText_email.getText().toString();
+                String password = editText_password.getText().toString();
+                try {
+
+                    User user = service.login(email, password, progressBar);
+                    if(user != null){
+
+                        Intent intent = new Intent(LoginActivity.this, ListsActivity.class);
+                        intent.putExtra("user", user);
+                        startActivity(intent);
+                    }else{
+
+                        Toast.makeText(LoginActivity.this, "Fail", Toast.LENGTH_LONG).show();
+                    }
+                } catch (ExecutionException e) {
+
+                    Log.i("Login: ", e.getMessage());
+                    e.printStackTrace();
+                } catch (InterruptedException e) {
+
+                    Log.i("Login: ", e.getMessage());
+                }
             }
         });
     }
 
-    private void clickBtnRegister(){
+    private void click_button_register() {
 
-        Intent intent = new Intent(this, RegisterActivity.class);
-        startActivity(intent);
+        this.button_register.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
-    private void clickBtnEnter(){
+    private void init_views() {
 
-        String email = this.editText_email.getText().toString();
-        String password = this.editText_password.getText().toString();
-        try {
-
-            User user = this.service.login(email, password, this.progressBar);
-            if(user != null){
-
-                Intent intent = new Intent(this, ListsActivity.class);
-                intent.putExtra("user", user);
-                startActivity(intent);
-            }else{
-
-                Toast.makeText(this, "Fail", Toast.LENGTH_LONG).show();
-            }
-        } catch (ExecutionException e) {
-
-            Log.i("Login: ", e.getMessage());
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-
-            Log.i("Login: ", e.getMessage());
-        }
+        this.progressBar = findViewById(R.id.pbLogin_enter);
+        this.editText_email = findViewById(R.id.etLogin_email);
+        this.editText_password = findViewById(R.id.etLogin_password);
+        this.button_register = findViewById(R.id.btnLogin_register);
+        this.button_enter = findViewById(R.id.btnLogin_enter);
     }
 }
