@@ -62,51 +62,8 @@ public class LoginActivity extends AppCompatActivity {
 
     private void clickBtnRegister(){
 
-        final Dialog dialog = new Dialog(this);
-        dialog.setContentView(R.layout.register_popup);
-
-        ImageView imgRegister_close = dialog.findViewById(R.id.imgRegister_close);
-        final EditText etRegister_name = dialog.findViewById(R.id.etRegister_name);
-        final EditText etRegister_email = dialog.findViewById(R.id.etRegister_email);
-        final EditText etRegister_password = dialog.findViewById(R.id.etRegister_password);
-        Button btnRegister_register = dialog.findViewById(R.id.btnRegister_register);
-
-        imgRegister_close.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                dialog.dismiss();
-            }
-        });
-
-        btnRegister_register.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                String name = etRegister_name.getText().toString();
-                String email = etRegister_email.getText().toString();
-                String password = etRegister_password.getText().toString();
-
-                try {
-
-                    User user = service.register_user(name, email, password);
-                    if(user != null){
-
-                        Toast.makeText(LoginActivity.this, "Success", Toast.LENGTH_LONG).show();
-                        dialog.dismiss();
-                    }else{
-
-                        Toast.makeText(LoginActivity.this, "Fail", Toast.LENGTH_LONG).show();
-                    }
-                } catch (ExecutionException e) {
-                    e.printStackTrace();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-
-        dialog.show();
+        Intent intent = new Intent(this, RegisterActivity.class);
+        startActivity(intent);
     }
 
     private void clickBtnEnter(){
