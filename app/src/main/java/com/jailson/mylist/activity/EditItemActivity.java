@@ -63,6 +63,7 @@ public class EditItemActivity extends AppCompatActivity {
 
                 int quantity = Integer.parseInt(String.valueOf(textview_item_qtd.getText()));
                 quantity -= 1;
+                if(quantity < 1) quantity = 1;
                 textview_item_qtd.setText(Integer.toString(quantity));
             }
         });
@@ -134,9 +135,9 @@ public class EditItemActivity extends AppCompatActivity {
 
         this.imageview_item_load = findViewById(R.id.imageview_item_load);
         this.textview_item_name_img = findViewById(R.id.textview_item_name_img);
-        this.editext_item_name = findViewById(R.id.editext_item_name);
-        this.editext_item_mark = findViewById(R.id.editext_item_mark);
-        this.editext_item_price = findViewById(R.id.editext_item_price);
+        this.editext_item_name = findViewById(R.id.edittext_item_name);
+        this.editext_item_mark = findViewById(R.id.edittext_item_mark);
+        this.editext_item_price = findViewById(R.id.edittext_item_price);
         this.imageview_item_add = findViewById(R.id.imageview_item_add);
         this.imageview_item_less= findViewById(R.id.imageview_item_less);
         this.textview_item_qtd = findViewById(R.id.textview_item_qtd);

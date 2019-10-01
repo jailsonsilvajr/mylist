@@ -22,15 +22,16 @@ import java.util.concurrent.ExecutionException;
 
 public class AddItemActivity extends AppCompatActivity {
 
-    private ImageView imageview_add_item;
-    private TextView textview_add_item_name_img;
-    private EditText edittext_add_item_name;
-    private EditText edittext_add_item_mark;
-    private EditText edittext_add_item_price;
-    private ImageView imageview_add_item_button_add_qtd;
-    private ImageView imageview_add_item_button_less_qtd;
-    private TextView textview_add_item_qtd;
-    private Button button_add_item_save;
+    private ImageView imageview_item_load;
+    private TextView textview_item_name_img;
+    private EditText edittext_item_name;
+    private EditText edittext_item_mark;
+    private EditText edittext_item_price;
+    private ImageView imageview_item_add;
+    private ImageView imageview_item_less;
+    private TextView textview_item_qtd;
+    private Button button_item_save;
+    private Button button_item_delete;
 
     private List list;
     private Service service;
@@ -38,7 +39,7 @@ public class AddItemActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_item);
+        setContentView(R.layout.activity_item);
 
         this.service = new Service();
         this.list = (List) getIntent().getSerializableExtra("list");
@@ -51,39 +52,39 @@ public class AddItemActivity extends AppCompatActivity {
 
     private void add_less_qtd() {
 
-        this.imageview_add_item_button_add_qtd.setOnClickListener(new View.OnClickListener() {
+        this.imageview_item_add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                int qtd = Integer.parseInt(textview_add_item_qtd.getText().toString());
+                int qtd = Integer.parseInt(String.valueOf(textview_item_qtd.getText()));
                 qtd += 1;
-                textview_add_item_qtd.setText(qtd+"");
+                textview_item_qtd.setText(Integer.toString(qtd));
             }
         });
 
-        this.imageview_add_item_button_less_qtd.setOnClickListener(new View.OnClickListener() {
+        this.imageview_item_less.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                int qtd = Integer.parseInt(textview_add_item_qtd.getText().toString());
+                int qtd = Integer.parseInt(String.valueOf(textview_item_qtd.getText()));
                 qtd -= 1;
                 if(qtd < 1) qtd = 1;
-                textview_add_item_qtd.setText(qtd+"");
+                textview_item_qtd.setText(Integer.toString(qtd));
             }
         });
     }
 
     private void click_button_save() {
 
-        this.button_add_item_save.setOnClickListener(new View.OnClickListener() {
+        this.button_item_save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 Item item = new Item(0,
-                        edittext_add_item_name.getText().toString(),
-                        edittext_add_item_mark.getText().toString(),
-                        Double.parseDouble(edittext_add_item_price.getText().toString()),
-                        Integer.parseInt(textview_add_item_qtd.getText().toString()),
+                        edittext_item_name.getText().toString(),
+                        edittext_item_mark.getText().toString(),
+                        Double.parseDouble(String.valueOf(edittext_item_price.getText())),
+                        Integer.parseInt(String.valueOf(textview_item_qtd.getText())),
                         list.getId(),
                         "url_img");
 
@@ -102,7 +103,7 @@ public class AddItemActivity extends AppCompatActivity {
 
     private void load_img() {
 
-        this.imageview_add_item.setOnClickListener(new View.OnClickListener() {
+        this.imageview_item_load.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -122,22 +123,24 @@ public class AddItemActivity extends AppCompatActivity {
 
                 Bitmap img = (Bitmap) bundle.get("data");
                 //img.createScaledBitmap(img, 150, 150, false);
-                this.imageview_add_item.setImageBitmap(img);
+                this.imageview_item_load.setImageBitmap(img);
             }
         }
     }
 
     private void init_views() {
 
-        this.imageview_add_item = findViewById(R.id.imageview_add_item);
-        this.textview_add_item_name_img = findViewById(R.id.textview_add_item_name_img);
-        this.edittext_add_item_name = findViewById(R.id.edittext_add_item_name);
-        this.edittext_add_item_mark = findViewById(R.id.edittext_add_item_mark);
-        this.edittext_add_item_price = findViewById(R.id.edittext_add_item_price);
-        this.imageview_add_item_button_add_qtd = findViewById(R.id.imageview_add_item_button_add_qtd);
-        this.imageview_add_item_button_less_qtd = findViewById(R.id.imageview_add_item_button_less_qtd);
-        this.textview_add_item_qtd = findViewById(R.id.textview_add_item_qtd);
-        this.button_add_item_save = findViewById(R.id.button_add_item_save);
+        this.imageview_item_load = findViewById(R.id.imageview_item_load);
+        this.textview_item_name_img = findViewById(R.id.textview_item_name_img);
+        this.edittext_item_name = findViewById(R.id.edittext_item_name);
+        this.edittext_item_mark = findViewById(R.id.edittext_item_mark);
+        this.edittext_item_price = findViewById(R.id.edittext_item_price);
+        this.imageview_item_add = findViewById(R.id.imageview_item_add);
+        this.imageview_item_less = findViewById(R.id.imageview_item_less);
+        this.textview_item_qtd = findViewById(R.id.textview_item_qtd);
+        this.button_item_save = findViewById(R.id.button_item_save);
+        this.button_item_delete = findViewById(R.id.button_item_delete);
+        this.button_item_delete.setVisibility(View.INVISIBLE);
     }
 
     private boolean add_item(Item item){
