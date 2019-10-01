@@ -1,8 +1,9 @@
 package com.jailson.mylist.object;
 
+import java.io.Serializable;
 import java.net.URL;
 
-public class Item {
+public class Item implements Serializable {
 
     private int id;
     private String name;
@@ -11,6 +12,16 @@ public class Item {
     private int quantity;
     private int id_list;
     private String url_img;
+
+    public Item(int id, String name, String mark, double price, int quantity, int id_list, String url_img) {
+        this.id = id;
+        this.name = name;
+        this.mark = mark;
+        this.price = price;
+        this.quantity = quantity;
+        this.id_list = id_list;
+        this.url_img = url_img;
+    }
 
     public int getId() {
         return id;

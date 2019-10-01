@@ -21,19 +21,22 @@
         </activity>
         <activity
             android:name=".activity.RegisterActivity"
-            android:label="@string/register2"/>
+            android:label="@string/register2" />
         <activity
             android:name=".activity.ListsActivity"
-            android:label="@string/lists"/>
+            android:label="@string/lists" />
         <activity
             android:name=".activity.ItemsActivity"
-            android:label="@string/items"/>
+            android:label="@string/items" />
         <activity
             android:name=".activity.AddItemActivity"
-            android:label="@string/add_item"/>
+            android:label="@string/add_item" />
         <activity
             android:name=".activity.AddListActivity"
-            android:label="@string/add_list"/>
+            android:label="@string/add_list" />
+        <activity
+            android:name=".activity.EditItemActivity"
+            android:label="@string/edit_item" />
     </application>
 
     <uses-permission android:name="android.permission.INTERNET" />

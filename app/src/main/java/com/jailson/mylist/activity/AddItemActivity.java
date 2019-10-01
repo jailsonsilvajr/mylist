@@ -79,12 +79,13 @@ public class AddItemActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                Item item = new Item();
-                item.setName(edittext_add_item_name.getText().toString());
-                item.setMark(edittext_add_item_mark.getText().toString());
-                item.setPrice(Double.parseDouble(edittext_add_item_price.getText().toString()));
-                item.setQtd(Integer.parseInt(textview_add_item_qtd.getText().toString()));
-                item.setId_list(list.getId());
+                Item item = new Item(0,
+                        edittext_add_item_name.getText().toString(),
+                        edittext_add_item_mark.getText().toString(),
+                        Double.parseDouble(edittext_add_item_price.getText().toString()),
+                        Integer.parseInt(textview_add_item_qtd.getText().toString()),
+                        list.getId(),
+                        "url_img");
 
                 if(add_item(item)){
 

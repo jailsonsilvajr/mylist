@@ -27,4 +27,5 @@
     <string name="items">Itens</string>
     <string name="add_item">Adicionar Item</string>
     <string name="add_list">Adicionar Lista</string>
+    <string name="edit_item">Editar Item</string>
 </resources>
