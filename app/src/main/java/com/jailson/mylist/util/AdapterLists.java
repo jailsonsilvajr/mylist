@@ -50,7 +50,7 @@ public class AdapterLists extends BaseAdapter {
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
 
-        View view = this.activity.getLayoutInflater().inflate(R.layout.listview_list, parent, false);
+        View view = this.activity.getLayoutInflater().inflate(R.layout.listview_lists, parent, false);
 
         com.jailson.mylist.object.List list = this.lists.get(position);
 

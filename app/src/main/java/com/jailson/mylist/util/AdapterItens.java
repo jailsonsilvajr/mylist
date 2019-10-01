@@ -44,7 +44,7 @@ public class AdapterItens extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        View view = this.activity.getLayoutInflater().inflate(R.layout.listview_iten, parent, false);
+        View view = this.activity.getLayoutInflater().inflate(R.layout.listview_items, parent, false);
 
         Item iten = this.itens.get(position);
 
