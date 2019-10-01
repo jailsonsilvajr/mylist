@@ -3,6 +3,7 @@ package com.jailson.mylist.activity;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -27,6 +28,9 @@ public class RegisterActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true); //Show button
+        getSupportActionBar().setHomeButtonEnabled(true); //Activate button
 
         this.service = new Service();
 
@@ -70,5 +74,17 @@ public class RegisterActivity extends AppCompatActivity {
         this.editext_email = findViewById(R.id.etRegister_email);
         this.editext_password = findViewById(R.id.etRegister_password);
         this.button_register = findViewById(R.id.btnRegister_register);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        int id = item.getItemId();
+        if(id == android.R.id.home){
+
+            finish();
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }

@@ -3,6 +3,7 @@ package com.jailson.mylist.activity;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -36,6 +37,9 @@ public class EditItemActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_item);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true); //Show button
+        getSupportActionBar().setHomeButtonEnabled(true); //Activate button
 
         this.item = (Item) getIntent().getSerializableExtra("item");
         this.service = new Service();
@@ -143,5 +147,17 @@ public class EditItemActivity extends AppCompatActivity {
         this.textview_item_qtd = findViewById(R.id.textview_item_qtd);
         this.button_item_save = findViewById(R.id.button_item_save);
         this.button_item_delete = findViewById(R.id.button_item_delete);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        int id = item.getItemId();
+        if(id == android.R.id.home){
+
+            finish();
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }

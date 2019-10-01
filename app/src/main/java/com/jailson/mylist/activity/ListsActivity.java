@@ -37,6 +37,9 @@ public class ListsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lists);
 
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true); //Show button
+        getSupportActionBar().setHomeButtonEnabled(true); //Activate button
+
         this.user = (User) getIntent().getSerializableExtra("user");
 
         init_views();
@@ -97,6 +100,9 @@ public class ListsActivity extends AppCompatActivity {
         if(id == R.id.menuList_add){
 
             click_add_list();
+        }else if(id == android.R.id.home){
+
+            finish();
         }
 
         return super.onOptionsItemSelected(item);

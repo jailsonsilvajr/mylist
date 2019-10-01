@@ -44,6 +44,9 @@ public class ItemsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_items);
 
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true); //Show button
+        getSupportActionBar().setHomeButtonEnabled(true); //Activate button
+
         this.df = new DecimalFormat("#,###.00");
 
         this.service = new Service();
@@ -159,6 +162,9 @@ public class ItemsActivity extends AppCompatActivity {
         if(id == R.id.menuItem_add){
 
             clickAddItem();
+        }else if(id == android.R.id.home){
+
+            finish();
         }
 
         return super.onOptionsItemSelected(item);

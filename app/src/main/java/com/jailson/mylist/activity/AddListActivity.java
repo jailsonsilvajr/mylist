@@ -3,6 +3,7 @@ package com.jailson.mylist.activity;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -26,6 +27,9 @@ public class AddListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_list);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true); //Show button
+        getSupportActionBar().setHomeButtonEnabled(true); //Activate button
 
         this.service = new Service();
         this.user = (User) getIntent().getSerializableExtra("user");
@@ -64,5 +68,17 @@ public class AddListActivity extends AppCompatActivity {
 
         this.editText_add_list_name = findViewById(R.id.editext_add_list_name);
         this.button_add_list = findViewById(R.id.button_add_list);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        int id = item.getItemId();
+        if(id == android.R.id.home){
+
+            finish();
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }
