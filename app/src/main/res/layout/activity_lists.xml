@@ -8,23 +8,6 @@
     tools:context=".activity.ListsActivity"
     android:orientation="vertical">
 
-    <LinearLayout
-        android:id="@+id/linearLayout_mylist"
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:background="@color/colorPrimary">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/mylists"
-            android:gravity="center_horizontal"
-            android:layout_gravity="center_vertical"
-            android:fontFamily="casual"
-            android:textColor="@color/colorAccent"
-            android:textSize="12pt"/>
-    </LinearLayout>
-
     <ListView
         android:id="@+id/lvLists_lists"
         android:layout_width="match_parent"
@@ -32,8 +15,6 @@
         android:layout_marginTop="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
-        android:elevation="5dp"
-        android:layout_below="@+id/linearLayout_mylist">
-    </ListView>
+        android:elevation="5dp"/>
 
 </RelativeLayout>

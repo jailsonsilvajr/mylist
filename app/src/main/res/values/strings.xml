@@ -23,4 +23,8 @@
     <string name="quantity">Quantidade:</string>
     <string name="delete">Deletar</string>
     <string name="save">Salvar</string>
+    <string name="lists">Listas</string>
+    <string name="items">Itens</string>
+    <string name="add_item">Adicionar Item</string>
+    <string name="add_list">Adicionar Lista</string>
 </resources>

@@ -52,7 +52,7 @@ public class ListsActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
                 com.jailson.mylist.object.List list = lists.get(position);
-                Intent intent = new Intent(ListsActivity.this, ItensActivity.class);
+                Intent intent = new Intent(ListsActivity.this, ItemsActivity.class);
                 intent.putExtra("list", list);
                 startActivity(intent);
             }

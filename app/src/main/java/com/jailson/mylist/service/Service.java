@@ -20,7 +20,7 @@ import java.util.concurrent.ExecutionException;
 
 public class Service {
 
-    private final String url = "http://172.22.64.161/mylist/";
+    private final String url = "http://192.168.0.110/mylist/";
 
     public User login(String email, String password, ProgressBar progressBar) throws ExecutionException, InterruptedException {
 

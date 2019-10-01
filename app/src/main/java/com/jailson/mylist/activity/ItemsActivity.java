@@ -2,7 +2,7 @@ package com.jailson.mylist.activity;
 
 import android.app.Dialog;
 import android.content.Intent;
-import android.graphics.Bitmap;
+
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
@@ -26,14 +26,13 @@ import com.jailson.mylist.util.AdapterItens;
 import java.text.DecimalFormat;
 import java.util.concurrent.ExecutionException;
 
-public class ItensActivity extends AppCompatActivity {
+public class ItemsActivity extends AppCompatActivity {
 
     private TextView tvItens_nameList;
     private TextView tvItens_priceList;
     private ListView listView_itens;
 
     private ImageView imgEdit_load;
-    private ImageView imgAdd;
 
     private List list;
     private java.util.List<Item> items;
@@ -43,10 +42,12 @@ public class ItensActivity extends AppCompatActivity {
 
     private DecimalFormat df;
 
+    private static final int ACTIVITY_ADDITEM_REQUEST = 1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_itens);
+        setContentView(R.layout.activity_items);
 
         this.df = new DecimalFormat("#,###.00");
 
@@ -153,86 +154,12 @@ public class ItensActivity extends AppCompatActivity {
 
     private void clickAddItem(){
 
-        final Dialog dialog = new Dialog(this);
-        dialog.setContentView(R.layout.add_item_popup);
-
-        this.imgAdd = dialog.findViewById(R.id.imgAdd);
-        final EditText etAdd_name = dialog.findViewById(R.id.etAdd_name);
-        final EditText etAdd_mark = dialog.findViewById(R.id.etAdd_mark);
-        final EditText etAdd_price = dialog.findViewById(R.id.etAdd_price);
-        final TextView tvAdd_qtd = dialog.findViewById(R.id.tvAdd_qtd);
-
-        imgAdd.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
-                startActivityForResult(intent, 0);
-            }
-        });
-
-        ImageView img_close = dialog.findViewById(R.id.imgAdd_close);
-        img_close.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                dialog.dismiss();
-            }
-        });
-
-        ImageView img_add = dialog.findViewById(R.id.imgAdd_add);
-        img_add.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                int qtd = Integer.parseInt(tvAdd_qtd.getText().toString());
-                qtd += 1;
-                tvAdd_qtd.setText(qtd+"");
-            }
-        });
-
-        ImageView img_less = dialog.findViewById(R.id.imgAdd_less);
-        img_less.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                int qtd = Integer.parseInt(tvAdd_qtd.getText().toString());
-                qtd -= 1;
-                tvAdd_qtd.setText(qtd+"");
-            }
-        });
-
-        Button btn_save = dialog.findViewById(R.id.btnAdd_save);
-        btn_save.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                Item item = new Item();
-                item.setName(etAdd_name.getText().toString());
-                item.setMark(etAdd_mark.getText().toString());
-                item.setPrice(Double.parseDouble(etAdd_price.getText().toString()));
-                item.setQtd(Integer.parseInt(tvAdd_qtd.getText().toString()));
-                item.setId_list(list.getId());
-
-                if(addItem(item)){
-
-                    getItems();
-                    count_value();
-                    init_views();
-                    AdapterItens adapterItens = new AdapterItens(items, ItensActivity.this);
-                    listView_itens.setAdapter(adapterItens);
-                    dialog.dismiss();
-                }else{
-
-                    Toast.makeText(ItensActivity.this, "Was don't possible add the item.", Toast.LENGTH_LONG).show();
-                }
-
-
-            }
-        });
-
-        dialog.show();
+        Intent intent = new Intent(this, AddItemActivity.class);
+        intent.putExtra("list", this.list);
+        startActivityForResult(intent, ACTIVITY_ADDITEM_REQUEST);
     }
+
+
 
     private void clickItem(final int position){
 
@@ -302,12 +229,12 @@ public class ItensActivity extends AppCompatActivity {
                     getItems();
                     count_value();
                     init_views();
-                    AdapterItens adapterItens = new AdapterItens(items, ItensActivity.this);
+                    AdapterItens adapterItens = new AdapterItens(items, ItemsActivity.this);
                     listView_itens.setAdapter(adapterItens);
                     dialog.dismiss();
                 }else{
 
-                    Toast.makeText(ItensActivity.this, "Was do not possible delete the item.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(ItemsActivity.this, "Was do not possible delete the item.", Toast.LENGTH_LONG).show();
                 }
             }
         });
@@ -327,12 +254,12 @@ public class ItensActivity extends AppCompatActivity {
                     getItems();
                     count_value();
                     init_views();
-                    AdapterItens adapterItens = new AdapterItens(items, ItensActivity.this);
+                    AdapterItens adapterItens = new AdapterItens(items, ItemsActivity.this);
                     listView_itens.setAdapter(adapterItens);
                     dialog.dismiss();
                 }else{
 
-                    Toast.makeText(ItensActivity.this, "Was do not possible update the item.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(ItemsActivity.this, "Was do not possible update the item.", Toast.LENGTH_LONG).show();
                 }
             }
         });
@@ -343,23 +270,14 @@ public class ItensActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
 
-        if(data != null){
+        if(requestCode == ACTIVITY_ADDITEM_REQUEST){
+            if(resultCode == RESULT_OK){
 
-            Bundle bundle = data.getExtras();
-            if(bundle != null){
-
-                Bitmap img = (Bitmap) bundle.get("data");
-                //img.createScaledBitmap(img, 150, 150, false);
-                if(this.imgEdit_load != null){
-
-                    this.imgEdit_load.setImageBitmap(img);
-                    this.imgEdit_load = null;
-                }
-                else{
-
-                    this.imgAdd.setImageBitmap(img);
-                    this.imgAdd = null;
-                }
+                getItems();
+                count_value();
+                init_views();
+                AdapterItens adapterItens = new AdapterItens(items, ItemsActivity.this);
+                this.listView_itens.setAdapter(adapterItens);
             }
         }
     }
