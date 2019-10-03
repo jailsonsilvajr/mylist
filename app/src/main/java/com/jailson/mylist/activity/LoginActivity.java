@@ -18,7 +18,6 @@ import java.util.concurrent.ExecutionException;
 
 public class LoginActivity extends AppCompatActivity {
 
-    private ProgressBar progressBar;
     private EditText editText_email;
     private EditText editText_password;
     private Button button_register;
@@ -33,7 +32,6 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         init_views();
-        this.progressBar.setVisibility(View.GONE);
 
         click_button_register();
         click_button_enter();
@@ -49,7 +47,7 @@ public class LoginActivity extends AppCompatActivity {
                 String password = editText_password.getText().toString();
                 try {
 
-                    User user = service.login(email, password, progressBar);
+                    User user = service.login(email, password);
                     if(user != null){
 
                         Intent intent = new Intent(LoginActivity.this, ListsActivity.class);
@@ -85,7 +83,6 @@ public class LoginActivity extends AppCompatActivity {
 
     private void init_views() {
 
-        this.progressBar = findViewById(R.id.pbLogin_enter);
         this.editText_email = findViewById(R.id.etLogin_email);
         this.editText_password = findViewById(R.id.etLogin_password);
         this.button_register = findViewById(R.id.btnLogin_register);

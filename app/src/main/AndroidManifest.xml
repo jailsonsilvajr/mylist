@@ -12,7 +12,8 @@
 
         <activity
             android:name=".activity.LoginActivity"
-            android:theme="@style/NoActionBar">
+            android:theme="@style/NoActionBar"
+            android:windowSoftInputMode="stateHidden">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -21,7 +22,8 @@
         </activity>
         <activity
             android:name=".activity.RegisterActivity"
-            android:label="@string/register2" />
+            android:label="@string/register2"
+            android:windowSoftInputMode="stateHidden"/>
         <activity
             android:name=".activity.ListsActivity"
             android:label="@string/lists" />
@@ -30,13 +32,16 @@
             android:label="@string/items" />
         <activity
             android:name=".activity.AddItemActivity"
-            android:label="@string/add_item" />
+            android:label="@string/add_item"
+            android:windowSoftInputMode="stateHidden"/>
         <activity
             android:name=".activity.AddListActivity"
-            android:label="@string/add_list" />
+            android:label="@string/add_list"
+            android:windowSoftInputMode="stateHidden"/>
         <activity
             android:name=".activity.EditItemActivity"
-            android:label="@string/edit_item" />
+            android:label="@string/edit_item"
+            android:windowSoftInputMode="stateHidden"/>
     </application>
 
     <uses-permission android:name="android.permission.INTERNET" />

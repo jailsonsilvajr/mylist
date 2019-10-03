@@ -24,21 +24,11 @@ public class Login extends AsyncTask<Void, Void, User> {
     private String email;
     private String password;
 
-    private ProgressBar progressBar;
-
-    public Login(String url, String email, String password, ProgressBar progressBar){
+    public Login(String url, String email, String password){
 
         this.url = url;
         this.email = email;
         this.password = password;
-        this.progressBar = progressBar;
-    }
-
-    @Override
-    protected void onPreExecute() {
-
-        super.onPreExecute();
-        this.progressBar.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -76,7 +66,6 @@ public class Login extends AsyncTask<Void, Void, User> {
                 Gson gson = new Gson();
                 User user = gson.fromJson(userJsonStr, User.class);
 
-                this.progressBar.setVisibility(View.GONE);
                 return user;
             }
 
@@ -91,7 +80,6 @@ public class Login extends AsyncTask<Void, Void, User> {
             Log.i("Login", e.getMessage());
         }
 
-        this.progressBar.setVisibility(View.GONE);
         return null;
     }
 }

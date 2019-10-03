@@ -8,126 +8,122 @@
     tools:context=".activity.LoginActivity"
     android:orientation="vertical">
 
-    <ImageView
-        android:layout_width="75dp"
-        android:layout_height="75dp"
-        android:layout_marginTop="40dp"
-        android:src="@drawable/icon_app"
-        android:layout_gravity="center_horizontal"/>
-    
-    <RelativeLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="40dp">
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/colorPrimary">
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/colorPrimaryDark"
-            android:layout_marginTop="32dp"
+            android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
-                android:layout_marginLeft="16dp"
-                android:layout_marginRight="16dp"
-                android:gravity="center_horizontal"
-                android:text="@string/login"
-                android:fontFamily="casual"
-                android:textColor="@color/colorAccent"
-                android:textSize="12pt" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
-                android:layout_marginLeft="16dp"
-                android:layout_marginRight="16dp"
-                android:text="@string/email"
-                android:fontFamily="casual"
-                android:textColor="@color/colorAccent"
-                android:textSize="7pt"/>
-
-            <EditText
-                android:id="@+id/etLogin_email"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_marginLeft="16dp"
-                android:layout_marginRight="16dp"
-                android:background="@drawable/background_edittext"
-                android:inputType="textEmailAddress"/>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_marginLeft="16dp"
-                android:layout_marginRight="16dp"
-                android:text="@string/password"
-                android:fontFamily="casual"
-                android:textColor="@color/colorAccent"
-                android:textSize="7pt"/>
-
-            <EditText
-                android:id="@+id/etLogin_password"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_marginLeft="16dp"
-                android:layout_marginRight="16dp"
-                android:background="@drawable/background_edittext"
-                android:inputType="textPassword"/>
+            <ImageView
+                android:layout_width="75dp"
+                android:layout_height="75dp"
+                android:layout_marginTop="40dp"
+                android:src="@drawable/icon_app"
+                android:layout_gravity="center_horizontal"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="48dp"
-                android:layout_marginLeft="16dp"
-                android:layout_marginRight="16dp">
+                android:layout_height="match_parent"
+                android:layout_marginTop="32dp"
+                android:background="@color/colorPrimaryDark"
+                android:orientation="vertical">
 
-                <Button
-                    android:id="@+id/btnLogin_register"
+                <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_marginRight="8dp"
-                    android:elevation="10dp"
-                    android:text="@string/register"
+                    android:layout_marginTop="32dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:gravity="center_horizontal"
+                    android:text="@string/login"
                     android:fontFamily="casual"
                     android:textColor="@color/colorAccent"
-                    android:background="@drawable/background_btn_login"/>
+                    android:textSize="12pt" />
 
-                <Button
-                    android:id="@+id/btnLogin_enter"
+                <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_marginLeft="8dp"
-                    android:elevation="10dp"
-                    android:text="@string/enter"
+                    android:layout_marginTop="32dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:text="@string/email"
                     android:fontFamily="casual"
                     android:textColor="@color/colorAccent"
-                    android:background="@drawable/background_btn_login"/>
+                    android:textSize="7pt"/>
+
+                <EditText
+                    android:id="@+id/etLogin_email"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:background="@drawable/background_edittext"
+                    android:inputType="textEmailAddress"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:text="@string/password"
+                    android:fontFamily="casual"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="7pt"/>
+
+                <EditText
+                    android:id="@+id/etLogin_password"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:background="@drawable/background_edittext"
+                    android:inputType="textPassword"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="48dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginBottom="66dp"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/btnLogin_register"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:layout_marginRight="8dp"
+                        android:elevation="10dp"
+                        android:text="@string/register"
+                        android:fontFamily="casual"
+                        android:textColor="@color/colorAccent"
+                        android:background="@drawable/background_btn_login"/>
+
+                    <Button
+                        android:id="@+id/btnLogin_enter"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:layout_marginLeft="8dp"
+                        android:elevation="10dp"
+                        android:text="@string/enter"
+                        android:fontFamily="casual"
+                        android:textColor="@color/colorAccent"
+                        android:background="@drawable/background_btn_login"/>
+
+                </LinearLayout>
+
             </LinearLayout>
 
-            <ProgressBar
-                android:id="@+id/pbLogin_enter"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
-                android:layout_gravity="center_horizontal"/>
-
         </LinearLayout>
-    </RelativeLayout>
+
+    </ScrollView>
 
 </LinearLayout>
