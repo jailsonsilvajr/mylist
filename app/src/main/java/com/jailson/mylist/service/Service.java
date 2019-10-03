@@ -17,8 +17,8 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 public class Service {
-
-    private final String url = "http://192.168.0.110/mylist/";
+    
+    private final String url = "https://jjsj2.000webhostapp.com/mylist/";
 
     public User login(String email, String password) throws ExecutionException, InterruptedException {
 
