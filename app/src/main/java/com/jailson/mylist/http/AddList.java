@@ -1,7 +1,5 @@
 package com.jailson.mylist.http;
 
-import android.os.AsyncTask;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -11,7 +9,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-public class AddList extends AsyncTask<Void, Void, Boolean> {
+public class AddList {
 
     private String url;
     private String name;
@@ -24,8 +22,7 @@ public class AddList extends AsyncTask<Void, Void, Boolean> {
         this.id_user = id_user;
     }
 
-    @Override
-    protected Boolean doInBackground(Void... voids) {
+    public boolean do_addList(){
 
         try {
 

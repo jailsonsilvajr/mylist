@@ -1,6 +1,5 @@
 package com.jailson.mylist.service;
 
-import android.widget.ProgressBar;
 import com.jailson.mylist.http.AddItem;
 import com.jailson.mylist.http.AddList;
 import com.jailson.mylist.http.DeleteItem;
@@ -32,22 +31,22 @@ public class Service {
         return registerUser.do_register();
     }
 
-    public List<com.jailson.mylist.object.List> getLists(int id_user) throws ExecutionException, InterruptedException {
+    public List<com.jailson.mylist.object.List> getLists(int id_user) {
 
         GetLists getLists = new GetLists(this.url + "list/get_list.php", id_user);
-        return getLists.execute().get();
+        return getLists.do_getList();
     }
 
-    public boolean deleteList(int id) throws ExecutionException, InterruptedException {
+    public boolean deleteList(int id) {
 
         DeleteList deleteList = new DeleteList(this.url + "list/delete_list.php", id);
-        return deleteList.execute().get();
+        return deleteList.do_delete();
     }
 
-    public boolean addList(String name, int id_user) throws ExecutionException, InterruptedException {
+    public boolean addList(String name, int id_user) {
 
         AddList addList = new AddList(this.url + "list/add_list.php", name, id_user);
-        return addList.execute().get();
+        return addList.do_addList();
     }
 
     public List<Item> getItens(int id_list) throws ExecutionException, InterruptedException {

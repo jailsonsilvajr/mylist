@@ -1,7 +1,5 @@
 package com.jailson.mylist.http;
 
-import android.os.AsyncTask;
-
 import com.google.gson.Gson;
 
 import org.json.JSONException;
@@ -17,7 +15,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
-public class GetLists extends AsyncTask<Void, Void, List<com.jailson.mylist.object.List> > {
+public class GetLists {
 
     private String url;
     private int id_user;
@@ -28,8 +26,7 @@ public class GetLists extends AsyncTask<Void, Void, List<com.jailson.mylist.obje
         this.id_user = id_user;
     }
 
-    @Override
-    protected List<com.jailson.mylist.object.List> doInBackground(Void... voids) {
+    public List<com.jailson.mylist.object.List> do_getList(){
 
         try {
 

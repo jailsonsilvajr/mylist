@@ -1,7 +1,5 @@
 package com.jailson.mylist.http;
 
-import android.os.AsyncTask;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -11,7 +9,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-public class DeleteList extends AsyncTask<Void, Void, Boolean> {
+public class DeleteList {
 
     private String url;
     private int id;
@@ -22,8 +20,7 @@ public class DeleteList extends AsyncTask<Void, Void, Boolean> {
         this.id = id;
     }
 
-    @Override
-    protected Boolean doInBackground(Void... voids) {
+    public boolean do_delete(){
 
         try {
 
@@ -50,7 +47,6 @@ public class DeleteList extends AsyncTask<Void, Void, Boolean> {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
 
         return false;
     }

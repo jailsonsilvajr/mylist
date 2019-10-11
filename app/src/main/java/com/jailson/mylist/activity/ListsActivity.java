@@ -4,6 +4,8 @@ import android.content.Intent;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -17,7 +19,6 @@ import com.jailson.mylist.service.Service;
 import com.jailson.mylist.util.AdapterLists;
 
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 public class ListsActivity extends AppCompatActivity {
 
@@ -44,7 +45,6 @@ public class ListsActivity extends AppCompatActivity {
 
         init_views();
         get_lists();
-        show_lists();
         click_list();
     }
 
@@ -70,14 +70,7 @@ public class ListsActivity extends AppCompatActivity {
 
     private void get_lists() {
 
-        try {
-
-            this.lists = this.service.getLists(user.getId());
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        new GetLists(user.getId()).execute();
     }
 
     private void init_views() {
@@ -124,6 +117,35 @@ public class ListsActivity extends AppCompatActivity {
                 get_lists();
                 show_lists();
             }
+        }
+    }
+
+    private class GetLists extends AsyncTask<Void, Void, List<com.jailson.mylist.object.List> >{
+
+        private int id_user;
+
+        public GetLists(int id_user){
+
+            this.id_user = id_user;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected List<com.jailson.mylist.object.List> doInBackground(Void... voids) {
+
+            return service.getLists(this.id_user);
+        }
+
+        @Override
+        protected void onPostExecute(List<com.jailson.mylist.object.List> lists_result) {
+
+            lists = lists_result;
+            show_lists();
+            super.onPostExecute(lists_result);
         }
     }
 }

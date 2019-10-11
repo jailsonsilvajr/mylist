@@ -2,6 +2,7 @@ package com.jailson.mylist.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -12,8 +13,6 @@ import android.widget.Toast;
 import com.jailson.mylist.R;
 import com.jailson.mylist.object.User;
 import com.jailson.mylist.service.Service;
-
-import java.util.concurrent.ExecutionException;
 
 public class AddListActivity extends AppCompatActivity {
 
@@ -44,22 +43,7 @@ public class AddListActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                try {
-
-                    if(service.addList(editText_add_list_name.getText().toString(), user.getId())){
-
-                        Toast.makeText(getApplicationContext(), "Success", Toast.LENGTH_LONG).show();
-                        setResult(RESULT_OK);
-                        finish();
-                    }else{
-
-                        Toast.makeText(getApplicationContext(), "Fail", Toast.LENGTH_LONG).show();
-                    }
-                } catch (ExecutionException e) {
-                    e.printStackTrace();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+                new AddList(editText_add_list_name.getText().toString(), user.getId()).execute();
             }
         });
     }
@@ -80,5 +64,39 @@ public class AddListActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private class AddList extends AsyncTask<Void, Void, Boolean> {
+
+        private String name;
+        private int id_user;
+
+        public AddList(String name, int id_user){
+
+            this.name = name;
+            this.id_user = id_user;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... voids) {
+
+            return service.addList(this.name, this.id_user);
+        }
+
+        @Override
+        protected void onPostExecute(Boolean aBoolean) {
+
+            if(aBoolean){
+                setResult(RESULT_OK);
+                finish();
+            }
+            else Toast.makeText(AddListActivity.this, "Fail Add", Toast.LENGTH_LONG).show();
+            super.onPostExecute(aBoolean);
+        }
     }
 }
