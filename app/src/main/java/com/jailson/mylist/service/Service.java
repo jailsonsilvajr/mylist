@@ -23,7 +23,7 @@ public class Service {
     public User login(String email, String password) throws ExecutionException, InterruptedException {
 
         Login login = new Login(this.url + "user/login.php", email, password);
-        return login.execute().get();
+        return login.do_login();
     }
 
     public User register_user(String name, String email, String password) throws ExecutionException, InterruptedException {

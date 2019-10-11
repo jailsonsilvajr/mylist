@@ -1,9 +1,6 @@
 package com.jailson.mylist.http;
 
-import android.os.AsyncTask;
 import android.util.Log;
-import android.view.View;
-import android.widget.ProgressBar;
 
 import com.google.gson.Gson;
 import com.jailson.mylist.object.User;
@@ -18,7 +15,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Scanner;
 
-public class Login extends AsyncTask<Void, Void, User> {
+public class Login{
 
     private String url;
     private String email;
@@ -31,8 +28,7 @@ public class Login extends AsyncTask<Void, Void, User> {
         this.password = password;
     }
 
-    @Override
-    protected User doInBackground(Void... voids) {
+    public User do_login(){
 
         try {
 
