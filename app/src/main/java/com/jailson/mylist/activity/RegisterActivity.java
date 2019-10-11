@@ -2,18 +2,19 @@ package com.jailson.mylist.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.jailson.mylist.R;
 import com.jailson.mylist.object.User;
 import com.jailson.mylist.service.Service;
-
-import java.util.concurrent.ExecutionException;
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -21,6 +22,7 @@ public class RegisterActivity extends AppCompatActivity {
     private EditText editext_email;
     private EditText editext_password;
     private Button button_register;
+    private ProgressBar progressBar_register;
 
     private Service service;
 
@@ -35,6 +37,8 @@ public class RegisterActivity extends AppCompatActivity {
         this.service = new Service();
 
         init_views();
+        this.progressBar_register.setVisibility(View.GONE);
+
         click_button_register();
     }
 
@@ -48,22 +52,7 @@ public class RegisterActivity extends AppCompatActivity {
                 String email = editext_email.getText().toString();
                 String password = editext_password.getText().toString();
 
-                try {
-
-                    User user = service.register_user(name, email, password);
-                    if(user != null){
-
-                        Toast.makeText(RegisterActivity.this, "Success", Toast.LENGTH_LONG).show();
-                        finish();
-                    }else{
-
-                        Toast.makeText(RegisterActivity.this, "Fail", Toast.LENGTH_LONG).show();
-                    }
-                } catch (ExecutionException e) {
-                    e.printStackTrace();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+                new Register(name, email, password).execute();
             }
         });
     }
@@ -74,6 +63,7 @@ public class RegisterActivity extends AppCompatActivity {
         this.editext_email = findViewById(R.id.etRegister_email);
         this.editext_password = findViewById(R.id.etRegister_password);
         this.button_register = findViewById(R.id.btnRegister_register);
+        this.progressBar_register = findViewById(R.id.progressBar_register);
     }
 
     @Override
@@ -86,5 +76,49 @@ public class RegisterActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private class Register extends AsyncTask<String, Void, User>{
+
+        private String name;
+        private String email;
+        private String password;
+
+        public Register(String name, String email, String password){
+
+            this.name = name;
+            this.email = email;
+            this.password = password;
+        }
+
+        @Override
+        protected void onPreExecute() {
+
+            progressBar_register.setVisibility(View.VISIBLE);
+            super.onPreExecute();
+        }
+
+        @Override
+        protected User doInBackground(String... strings) {
+
+            return service.register_user(this.name, this.email, this.password);
+        }
+
+        @Override
+        protected void onPostExecute(User user) {
+
+            progressBar_register.setVisibility(View.GONE);
+            if(user != null){
+
+                Intent intent = new Intent(RegisterActivity.this, ListsActivity.class);
+                intent.putExtra("user", user);
+                startActivity(intent);
+                finish();
+            }else{
+
+                Toast.makeText(RegisterActivity.this, "Register Fail!", Toast.LENGTH_LONG);
+            }
+            super.onPostExecute(user);
+        }
     }
 }

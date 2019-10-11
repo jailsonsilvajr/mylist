@@ -1,7 +1,5 @@
 package com.jailson.mylist.http;
 
-import android.os.AsyncTask;
-
 import com.google.gson.Gson;
 import com.jailson.mylist.object.User;
 
@@ -15,7 +13,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Scanner;
 
-public class RegisterUser extends AsyncTask<Void, Void, User> {
+public class RegisterUser {
 
     private String url;
     private String name;
@@ -30,8 +28,7 @@ public class RegisterUser extends AsyncTask<Void, Void, User> {
         this.password = password;
     }
 
-    @Override
-    protected User doInBackground(Void... voids) {
+    public User do_register(){
 
         try {
 

@@ -95,15 +95,8 @@ public class LoginActivity extends AppCompatActivity {
 
         @Override
         protected User doInBackground(String... strings) {
-            try {
 
-                return service.login(this.email, this.password);
-            } catch (ExecutionException e) {
-                e.printStackTrace();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            return null;
+            return service.login(this.email, this.password);
         }
 
         @Override

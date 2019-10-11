@@ -20,16 +20,16 @@ public class Service {
 
     private final String url = "https://jjsj2.000webhostapp.com/mylist/";
 
-    public User login(String email, String password) throws ExecutionException, InterruptedException {
+    public User login(String email, String password) {
 
         Login login = new Login(this.url + "user/login.php", email, password);
         return login.do_login();
     }
 
-    public User register_user(String name, String email, String password) throws ExecutionException, InterruptedException {
+    public User register_user(String name, String email, String password) {
 
         RegisterUser registerUser = new RegisterUser(this.url + "user/register.php", name, email, password);
-        return registerUser.execute().get();
+        return registerUser.do_register();
     }
 
     public List<com.jailson.mylist.object.List> getLists(int id_user) throws ExecutionException, InterruptedException {
