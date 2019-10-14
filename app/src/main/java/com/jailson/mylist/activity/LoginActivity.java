@@ -15,8 +15,6 @@ import com.jailson.mylist.R;
 import com.jailson.mylist.object.User;
 import com.jailson.mylist.service.Service;
 
-import java.util.concurrent.ExecutionException;
-
 public class LoginActivity extends AppCompatActivity {
 
     private EditText editText_email;

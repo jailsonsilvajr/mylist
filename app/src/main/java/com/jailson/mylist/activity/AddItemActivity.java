@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -12,14 +13,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.jailson.mylist.R;
 import com.jailson.mylist.object.Item;
 import com.jailson.mylist.object.List;
 import com.jailson.mylist.service.Service;
-
-import java.util.concurrent.ExecutionException;
 
 public class AddItemActivity extends AppCompatActivity {
 
@@ -92,15 +90,8 @@ public class AddItemActivity extends AppCompatActivity {
                         list.getId(),
                         "url_img");
 
-                if(add_item(item)){
-
-                    Toast.makeText(AddItemActivity.this, "Success", Toast.LENGTH_LONG).show();
-                    setResult(RESULT_OK);
-                    finish();
-                }else{
-
-                    Toast.makeText(AddItemActivity.this, "Fail", Toast.LENGTH_LONG).show();
-                }
+                AddItem addItem = new AddItem(item);
+                addItem.execute();
             }
         });
     }
@@ -147,20 +138,6 @@ public class AddItemActivity extends AppCompatActivity {
         this.button_item_delete.setVisibility(View.INVISIBLE);
     }
 
-    private boolean add_item(Item item){
-
-        try {
-
-            if(this.service.addItem(item)) return true;
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-        return false;
-    }
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
@@ -171,5 +148,35 @@ public class AddItemActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private class AddItem extends AsyncTask<Void, Void, Boolean>{
+
+        private Item item;
+
+        public AddItem(Item item){
+
+            this.item = item;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... voids) {
+
+            return service.addItem(this.item);
+        }
+
+        @Override
+        protected void onPostExecute(Boolean aBoolean) {
+
+            setResult(RESULT_OK);
+            finish();
+
+            super.onPostExecute(aBoolean);
+        }
     }
 }

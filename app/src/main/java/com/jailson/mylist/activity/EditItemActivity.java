@@ -10,13 +10,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.jailson.mylist.R;
 import com.jailson.mylist.object.Item;
 import com.jailson.mylist.service.Service;
-
-import java.util.concurrent.ExecutionException;
 
 public class EditItemActivity extends AppCompatActivity {
 

@@ -55,10 +55,10 @@ public class Service {
         return getItems.execute().get();
     }
 
-    public boolean addItem(Item item) throws ExecutionException, InterruptedException {
+    public boolean addItem(Item item) {
 
         AddItem add = new AddItem(this.url + "item/add_item.php", item);
-        return add.execute().get();
+        return add.do_add();
     }
 
     public boolean deleteItem(Item item) {
