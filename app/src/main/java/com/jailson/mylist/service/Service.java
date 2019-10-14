@@ -67,9 +67,9 @@ public class Service {
         return deleteItem.do_delete();
     }
 
-    public boolean updateItem(Item item) throws ExecutionException, InterruptedException {
+    public boolean updateItem(Item item) {
 
         UpdateItem updateItem = new UpdateItem(this.url + "item/update_item.php", item);
-        return updateItem.execute().get();
+        return updateItem.do_update();
     }
 }

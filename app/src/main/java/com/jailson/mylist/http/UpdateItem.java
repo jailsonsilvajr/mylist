@@ -1,7 +1,5 @@
 package com.jailson.mylist.http;
 
-import android.os.AsyncTask;
-
 import com.jailson.mylist.object.Item;
 
 import org.json.JSONException;
@@ -13,7 +11,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-public class UpdateItem extends AsyncTask<Void, Void, Boolean> {
+public class UpdateItem {
 
     private String url;
     private Item item;
@@ -24,8 +22,7 @@ public class UpdateItem extends AsyncTask<Void, Void, Boolean> {
         this.item = item;
     }
 
-    @Override
-    protected Boolean doInBackground(Void... voids) {
+    public boolean do_update(){
 
         try {
 

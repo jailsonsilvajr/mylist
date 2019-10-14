@@ -85,22 +85,8 @@ public class EditItemActivity extends AppCompatActivity {
                         item.getId_list(),
                         item.getUrl_img());
 
-                try {
-
-                    if(service.updateItem(item_temp)){
-
-                        Toast.makeText(getApplicationContext(), "Success", Toast.LENGTH_LONG).show();
-                        setResult(RESULT_OK);
-                        finish();
-                    }else{
-
-                        Toast.makeText(getApplicationContext(), "Fail", Toast.LENGTH_LONG).show();
-                    }
-                } catch (ExecutionException e) {
-                    e.printStackTrace();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+                UpdateItem updateItem = new UpdateItem(item_temp);
+                updateItem.execute();
             }
         });
 
@@ -176,4 +162,36 @@ public class EditItemActivity extends AppCompatActivity {
             super.onPostExecute(result);
         }
     }
+
+    private class UpdateItem extends AsyncTask<Void, Void, Boolean>{
+
+        private Item item;
+
+        public UpdateItem(Item item){
+
+            this.item = item;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... voids) {
+
+            return service.updateItem(this.item);
+        }
+
+        @Override
+        protected void onPostExecute(Boolean aBoolean) {
+
+            setResult(RESULT_OK);
+            finish();
+
+            super.onPostExecute(aBoolean);
+        }
+    }
+
+
 }
