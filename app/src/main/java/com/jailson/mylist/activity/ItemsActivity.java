@@ -4,6 +4,8 @@ import android.content.Intent;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -20,7 +22,6 @@ import com.jailson.mylist.service.Service;
 import com.jailson.mylist.util.AdapterItens;
 
 import java.text.DecimalFormat;
-import java.util.concurrent.ExecutionException;
 
 public class ItemsActivity extends AppCompatActivity {
 
@@ -93,20 +94,10 @@ public class ItemsActivity extends AppCompatActivity {
         this.tvItens_priceList.setText("R$: " + this.df.format(this.value));
     }
 
-    private boolean getItems(){
+    private void getItems(){
 
-        try {
-
-            this.items = this.service.getItens(this.list.getId());
-            if(this.items != null) return true;
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-        Toast.makeText(this, "Fail", Toast.LENGTH_LONG).show();
-        return false;
+        GetItems getItems = new GetItems(this.list.getId());
+        getItems.execute();
     }
 
     private void clickAddItem(){
@@ -169,5 +160,35 @@ public class ItemsActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private class GetItems extends AsyncTask<Void, Void, java.util.List<Item> >{
+
+        private int id_item;
+
+        public GetItems(int id_item){
+
+            this.id_item = id_item;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected java.util.List<Item> doInBackground(Void... voids) {
+
+            return service.getItens(this.id_item);
+        }
+
+        @Override
+        protected void onPostExecute(java.util.List<Item> result) {
+
+            if(result != null) items = result;
+            else Toast.makeText(ItemsActivity.this, "Fail", Toast.LENGTH_LONG).show();
+
+            super.onPostExecute(result);
+        }
     }
 }

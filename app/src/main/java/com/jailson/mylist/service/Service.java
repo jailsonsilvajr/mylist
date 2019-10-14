@@ -13,7 +13,6 @@ import com.jailson.mylist.object.Item;
 import com.jailson.mylist.object.User;
 
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 public class Service {
 
@@ -49,10 +48,10 @@ public class Service {
         return addList.do_addList();
     }
 
-    public List<Item> getItens(int id_list) throws ExecutionException, InterruptedException {
+    public List<Item> getItens(int id_list) {
 
         GetItems getItems = new GetItems(this.url + "item/get_item.php", id_list);
-        return getItems.execute().get();
+        return getItems.do_get();
     }
 
     public boolean addItem(Item item) {

@@ -1,8 +1,5 @@
 package com.jailson.mylist.http;
 
-import android.os.AsyncTask;
-import android.widget.TextView;
-
 import com.google.gson.Gson;
 import com.jailson.mylist.object.Item;
 
@@ -11,13 +8,12 @@ import org.json.JSONObject;
 import java.io.PrintStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
-public class GetItems extends AsyncTask <Void, Void, List<Item> > {
+public class GetItems {
 
     private String url;
     private int id_list;
@@ -28,8 +24,7 @@ public class GetItems extends AsyncTask <Void, Void, List<Item> > {
         this.id_list = id_list;
     }
 
-    @Override
-    protected List<Item> doInBackground(Void... voids) {
+    public List<Item> do_get(){
 
         try {
 
