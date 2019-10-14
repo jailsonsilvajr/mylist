@@ -13,7 +13,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-public class DeleteItem extends AsyncTask<Void, Void, Boolean> {
+public class DeleteItem {
 
     private String url;
     private Item item;
@@ -24,8 +24,7 @@ public class DeleteItem extends AsyncTask<Void, Void, Boolean> {
         this.item = item;
     }
 
-    @Override
-    protected Boolean doInBackground(Void... voids) {
+    public boolean do_delete(){
 
         try {
 

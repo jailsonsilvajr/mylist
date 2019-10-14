@@ -61,10 +61,10 @@ public class Service {
         return add.execute().get();
     }
 
-    public boolean deleteItem(Item item) throws ExecutionException, InterruptedException {
+    public boolean deleteItem(Item item) {
 
         DeleteItem deleteItem = new DeleteItem(this.url + "item/delete_item.php", item);
-        return deleteItem.execute().get();
+        return deleteItem.do_delete();
     }
 
     public boolean updateItem(Item item) throws ExecutionException, InterruptedException {

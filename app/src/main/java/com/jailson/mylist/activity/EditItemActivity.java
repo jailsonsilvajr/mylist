@@ -2,6 +2,7 @@ package com.jailson.mylist.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -107,22 +108,8 @@ public class EditItemActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                try {
-
-                    if(service.deleteItem(item)){
-
-                        Toast.makeText(getApplicationContext(), "Success", Toast.LENGTH_LONG).show();
-                        setResult(RESULT_OK);
-                        finish();
-                    }else{
-
-                        Toast.makeText(getApplicationContext(), "Fail", Toast.LENGTH_LONG).show();
-                    }
-                } catch (ExecutionException e) {
-                    e.printStackTrace();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+                DeleteItem deleteItem = new DeleteItem(item);
+                deleteItem.execute();
             }
         });
     }
@@ -159,5 +146,34 @@ public class EditItemActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private class DeleteItem extends AsyncTask<Void, Void, Boolean>{
+
+        private Item item;
+
+        public DeleteItem(Item item){
+
+            this.item = item;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... voids) {
+            return service.deleteItem(this.item);
+        }
+
+        @Override
+        protected void onPostExecute(Boolean result) {
+
+            setResult(RESULT_OK);
+            finish();
+
+            super.onPostExecute(result);
+        }
     }
 }
