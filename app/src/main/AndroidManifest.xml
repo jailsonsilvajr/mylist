@@ -22,6 +22,7 @@
         </activity>
         <activity
             android:name=".activity.RegisterActivity"
+
             android:label="@string/register2"
             android:windowSoftInputMode="stateHidden"/>
         <activity

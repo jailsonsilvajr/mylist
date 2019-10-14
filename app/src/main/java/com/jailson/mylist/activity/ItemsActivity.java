@@ -53,10 +53,14 @@ public class ItemsActivity extends AppCompatActivity {
         this.service = new Service();
         this.list = (List) getIntent().getSerializableExtra("list");
 
+        this.tvItens_nameList = findViewById(R.id.tvItens_nameList);
+        this.tvItens_priceList = findViewById(R.id.tvItens_priceList);
+        this.listView_itens = findViewById(R.id.lvItens_itens);
+
+        this.tvItens_nameList.setText(list.getName());
+
         getItems();
-        count_value();
-        init_views();
-        show_items();
+
         click_item();
     }
 
@@ -64,7 +68,7 @@ public class ItemsActivity extends AppCompatActivity {
 
         this.value = 0.0;
         for(int i = 0; i < this.items.size(); i++) this.value += (this.items.get(i).getPrice() * this.items.get(i).getQtd());
-
+        this.tvItens_priceList.setText("R$: " + this.df.format(this.value));
     }
 
     private void click_item() {
@@ -82,16 +86,6 @@ public class ItemsActivity extends AppCompatActivity {
 
         AdapterItens adapterItens = new AdapterItens(this.items, this);
         this.listView_itens.setAdapter(adapterItens);
-    }
-
-    private void init_views() {
-
-        this.tvItens_nameList = findViewById(R.id.tvItens_nameList);
-        this.tvItens_priceList = findViewById(R.id.tvItens_priceList);
-        this.listView_itens = findViewById(R.id.lvItens_itens);
-
-        this.tvItens_nameList.setText(list.getName());
-        this.tvItens_priceList.setText("R$: " + this.df.format(this.value));
     }
 
     private void getItems(){
@@ -123,19 +117,11 @@ public class ItemsActivity extends AppCompatActivity {
             if(resultCode == RESULT_OK){
 
                 getItems();
-                count_value();
-                init_views();
-                AdapterItens adapterItens = new AdapterItens(items, ItemsActivity.this);
-                this.listView_itens.setAdapter(adapterItens);
             }
         }else if(requestCode == ACTIVITY_EDITITEM_REQUEST){
             if(resultCode == RESULT_OK){
 
                 getItems();
-                count_value();
-                init_views();
-                AdapterItens adapterItens = new AdapterItens(items, ItemsActivity.this);
-                this.listView_itens.setAdapter(adapterItens);
             }
         }
     }
@@ -185,7 +171,12 @@ public class ItemsActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(java.util.List<Item> result) {
 
-            if(result != null) items = result;
+            if(result != null) {
+
+                items = result;
+                count_value();
+                show_items();
+            }
             else Toast.makeText(ItemsActivity.this, "Fail", Toast.LENGTH_LONG).show();
 
             super.onPostExecute(result);
