@@ -7,12 +7,11 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.jailson.mylist.R;
 import com.jailson.mylist.object.User;
 import com.jailson.mylist.service.Service;
@@ -23,6 +22,7 @@ import java.util.List;
 public class ListsActivity extends AppCompatActivity {
 
     private ListView lvLists_lists;
+    private FloatingActionButton fabLists;
     private List<com.jailson.mylist.object.List> lists;
     private AdapterLists adapterLists;
 
@@ -45,10 +45,10 @@ public class ListsActivity extends AppCompatActivity {
 
         init_views();
         get_lists();
-        click_list();
+        clicks();
     }
 
-    private void click_list() {
+    private void clicks() {
 
         this.lvLists_lists.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -58,6 +58,14 @@ public class ListsActivity extends AppCompatActivity {
                 Intent intent = new Intent(ListsActivity.this, ItemsActivity.class);
                 intent.putExtra("list", list);
                 startActivity(intent);
+            }
+        });
+
+        this.fabLists.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                click_add_list();
             }
         });
     }
@@ -76,29 +84,7 @@ public class ListsActivity extends AppCompatActivity {
     private void init_views() {
 
         this.lvLists_lists = findViewById(R.id.lvLists_lists);
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu_list) {
-
-        getMenuInflater().inflate(R.menu.menu_list, menu_list);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-        int id = item.getItemId();
-
-        if(id == R.id.menuList_add){
-
-            click_add_list();
-        }else if(id == android.R.id.home){
-
-            finish();
-        }
-
-        return super.onOptionsItemSelected(item);
+        this.fabLists = findViewById(R.id.fabLists);
     }
 
     private void click_add_list() {

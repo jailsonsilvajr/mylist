@@ -17,4 +17,16 @@
         android:layout_marginRight="8dp"
         android:elevation="5dp"/>
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabLists"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_margin="16dp"
+        app:srcCompat="@drawable/icon_add_list"
+        app:backgroundTint="@color/green">
+
+    </com.google.android.material.floatingactionbutton.FloatingActionButton>
+
 </RelativeLayout>
