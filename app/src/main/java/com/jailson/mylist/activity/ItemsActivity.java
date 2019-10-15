@@ -7,14 +7,13 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.jailson.mylist.R;
 import com.jailson.mylist.object.Item;
 import com.jailson.mylist.object.List;
@@ -28,6 +27,7 @@ public class ItemsActivity extends AppCompatActivity {
     private TextView tvItens_nameList;
     private TextView tvItens_priceList;
     private ListView listView_itens;
+    private FloatingActionButton fabItems;
 
     private List list;
     private java.util.List<Item> items;
@@ -56,12 +56,13 @@ public class ItemsActivity extends AppCompatActivity {
         this.tvItens_nameList = findViewById(R.id.tvItens_nameList);
         this.tvItens_priceList = findViewById(R.id.tvItens_priceList);
         this.listView_itens = findViewById(R.id.lvItens_itens);
+        this.fabItems = findViewById(R.id.fabItems);
 
         this.tvItens_nameList.setText(list.getName());
 
         getItems();
 
-        click_item();
+        clicks();
     }
 
     private void count_value() {
@@ -71,13 +72,21 @@ public class ItemsActivity extends AppCompatActivity {
         this.tvItens_priceList.setText("R$: " + this.df.format(this.value));
     }
 
-    private void click_item() {
+    private void clicks() {
 
         this.listView_itens.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
                 clickItem(position);
+            }
+        });
+
+        this.fabItems.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                clickAddItem();
             }
         });
     }
@@ -124,28 +133,6 @@ public class ItemsActivity extends AppCompatActivity {
                 getItems();
             }
         }
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-
-        getMenuInflater().inflate(R.menu.menu_item, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-        int id = item.getItemId();
-        if(id == R.id.menuItem_add){
-
-            clickAddItem();
-        }else if(id == android.R.id.home){
-
-            finish();
-        }
-
-        return super.onOptionsItemSelected(item);
     }
 
     private class GetItems extends AsyncTask<Void, Void, java.util.List<Item> >{
