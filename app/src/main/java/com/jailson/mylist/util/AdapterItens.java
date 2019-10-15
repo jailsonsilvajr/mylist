@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.jailson.mylist.R;
@@ -48,7 +47,6 @@ public class AdapterItens extends BaseAdapter {
 
         Item iten = this.itens.get(position);
 
-        ImageView img = view.findViewById(R.id.imageview_iten);
         TextView name = view.findViewById(R.id.textview_name_iten);
         TextView mark = view.findViewById(R.id.textview_mark_iten);
         TextView price = view.findViewById(R.id.textview_price_iten);
@@ -58,8 +56,6 @@ public class AdapterItens extends BaseAdapter {
         mark.setText(mark.getText() + iten.getMark());
         price.setText(price.getText() + "" + iten.getPrice());
         qtd.setText(qtd.getText() + "" + iten.getQtd());
-
-        //Picasso.get().load(iten.getUrl_img()).into(img);
 
         return view;
     }

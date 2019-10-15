@@ -7,18 +7,18 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.google.android.material.textfield.TextInputLayout;
 import com.jailson.mylist.R;
 import com.jailson.mylist.object.User;
 import com.jailson.mylist.service.Service;
 
 public class LoginActivity extends AppCompatActivity {
 
-    private EditText editText_email;
-    private EditText editText_password;
+    private TextInputLayout textInputLayout_email;
+    private TextInputLayout textInputLayout_password;
     private Button button_register;
     private Button button_enter;
     private ProgressBar progressBar_login;
@@ -44,8 +44,8 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                String email = editText_email.getText().toString();
-                String password = editText_password.getText().toString();
+                String email = textInputLayout_email.getEditText().getText().toString();
+                String password = textInputLayout_password.getEditText().getText().toString();
 
                 new LoginActivity.Login(email, password).execute();
             }
@@ -66,8 +66,8 @@ public class LoginActivity extends AppCompatActivity {
 
     private void init_views() {
 
-        this.editText_email = findViewById(R.id.etLogin_email);
-        this.editText_password = findViewById(R.id.etLogin_password);
+        this.textInputLayout_email = findViewById(R.id.etLogin_email);
+        this.textInputLayout_password = findViewById(R.id.etLogin_password);
         this.button_register = findViewById(R.id.btnLogin_register);
         this.button_enter = findViewById(R.id.btnLogin_enter);
         this.progressBar_login = findViewById(R.id.progressBar_login);

@@ -1,19 +1,16 @@
 package com.jailson.mylist.activity;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Intent;
-import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.android.material.textfield.TextInputLayout;
 import com.jailson.mylist.R;
 import com.jailson.mylist.object.Item;
 import com.jailson.mylist.object.List;
@@ -21,11 +18,9 @@ import com.jailson.mylist.service.Service;
 
 public class AddItemActivity extends AppCompatActivity {
 
-    private ImageView imageview_item_load;
-    private TextView textview_item_name_img;
-    private EditText edittext_item_name;
-    private EditText edittext_item_mark;
-    private EditText edittext_item_price;
+    private TextInputLayout textInputLayout_name;
+    private TextInputLayout textInputLayout_mark;
+    private TextInputLayout textInputLayout_price;
     private ImageView imageview_item_add;
     private ImageView imageview_item_less;
     private TextView textview_item_qtd;
@@ -47,7 +42,6 @@ public class AddItemActivity extends AppCompatActivity {
         this.list = (List) getIntent().getSerializableExtra("list");
 
         init_views();
-        load_img();
         click_button_save();
         add_less_qtd();
     }
@@ -83,9 +77,9 @@ public class AddItemActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 Item item = new Item(0,
-                        edittext_item_name.getText().toString(),
-                        edittext_item_mark.getText().toString(),
-                        Double.parseDouble(String.valueOf(edittext_item_price.getText())),
+                        textInputLayout_name.getEditText().getText().toString(),
+                        textInputLayout_mark.getEditText().getText().toString(),
+                        Double.parseDouble(String.valueOf(textInputLayout_price.getEditText().getText())),
                         Integer.parseInt(String.valueOf(textview_item_qtd.getText())),
                         list.getId(),
                         "url_img");
@@ -96,40 +90,11 @@ public class AddItemActivity extends AppCompatActivity {
         });
     }
 
-    private void load_img() {
-
-        this.imageview_item_load.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
-                startActivityForResult(intent, 0);
-            }
-        });
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-
-        if(data != null){
-
-            Bundle bundle = data.getExtras();
-            if(bundle != null){
-
-                Bitmap img = (Bitmap) bundle.get("data");
-                //img.createScaledBitmap(img, 150, 150, false);
-                this.imageview_item_load.setImageBitmap(img);
-            }
-        }
-    }
-
     private void init_views() {
 
-        this.imageview_item_load = findViewById(R.id.imageview_item_load);
-        this.textview_item_name_img = findViewById(R.id.textview_item_name_img);
-        this.edittext_item_name = findViewById(R.id.edittext_item_name);
-        this.edittext_item_mark = findViewById(R.id.edittext_item_mark);
-        this.edittext_item_price = findViewById(R.id.edittext_item_price);
+        this.textInputLayout_name = findViewById(R.id.edittext_item_name);
+        this.textInputLayout_mark = findViewById(R.id.edittext_item_mark);
+        this.textInputLayout_price = findViewById(R.id.edittext_item_price);
         this.imageview_item_add = findViewById(R.id.imageview_item_add);
         this.imageview_item_less = findViewById(R.id.imageview_item_less);
         this.textview_item_qtd = findViewById(R.id.textview_item_qtd);

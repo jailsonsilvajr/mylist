@@ -10,13 +10,14 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.android.material.textfield.TextInputLayout;
 import com.jailson.mylist.R;
 import com.jailson.mylist.object.User;
 import com.jailson.mylist.service.Service;
 
 public class AddListActivity extends AppCompatActivity {
 
-    private EditText editText_add_list_name;
+    private TextInputLayout textInputLayout_name;
     private Button button_add_list;
 
     private Service service;
@@ -43,14 +44,14 @@ public class AddListActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                new AddList(editText_add_list_name.getText().toString(), user.getId()).execute();
+                new AddList(textInputLayout_name.getEditText().getText().toString(), user.getId()).execute();
             }
         });
     }
 
     private void init_views() {
 
-        this.editText_add_list_name = findViewById(R.id.editext_add_list_name);
+        this.textInputLayout_name = findViewById(R.id.editext_add_list_name);
         this.button_add_list = findViewById(R.id.button_add_list);
     }
 

@@ -2,20 +2,16 @@ package com.jailson.mylist.util;
 
 import android.app.Activity;
 import android.os.AsyncTask;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.jailson.mylist.R;
-import com.jailson.mylist.activity.ListsActivity;
 import com.jailson.mylist.service.Service;
 
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 public class AdapterLists extends BaseAdapter {
 
