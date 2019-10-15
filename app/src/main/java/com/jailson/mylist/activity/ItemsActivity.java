@@ -69,7 +69,8 @@ public class ItemsActivity extends AppCompatActivity {
 
         this.value = 0.0;
         for(int i = 0; i < this.items.size(); i++) this.value += (this.items.get(i).getPrice() * this.items.get(i).getQtd());
-        this.tvItens_priceList.setText("R$: " + this.df.format(this.value));
+        if(this.value != 0.0) this.tvItens_priceList.setText("R$: " + this.df.format(this.value));
+        else this.tvItens_priceList.setText("R$: 0");
     }
 
     private void clicks() {
