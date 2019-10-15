@@ -8,19 +8,19 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.google.android.material.textfield.TextInputLayout;
 import com.jailson.mylist.R;
 import com.jailson.mylist.object.User;
 import com.jailson.mylist.service.Service;
 
 public class RegisterActivity extends AppCompatActivity {
 
-    private EditText editext_name;
-    private EditText editext_email;
-    private EditText editext_password;
+    private TextInputLayout textInputLayout_name;
+    private TextInputLayout textInputLayout_email;
+    private TextInputLayout textInputLayout_password;
     private Button button_register;
     private ProgressBar progressBar_register;
 
@@ -48,9 +48,10 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                String name = editext_name.getText().toString();
-                String email = editext_email.getText().toString();
-                String password = editext_password.getText().toString();
+                //String name = editext_name.getText().toString();
+                String name = textInputLayout_name.getEditText().getText().toString();
+                String email = textInputLayout_email.getEditText().getText().toString();
+                String password = textInputLayout_password.getEditText().getText().toString();
 
                 new Register(name, email, password).execute();
             }
@@ -59,9 +60,10 @@ public class RegisterActivity extends AppCompatActivity {
 
     private void init_views() {
 
-        this.editext_name = findViewById(R.id.etRegister_name);
-        this.editext_email = findViewById(R.id.etRegister_email);
-        this.editext_password = findViewById(R.id.etRegister_password);
+        //this.editext_name = findViewById(R.id.etRegister_name);
+        this.textInputLayout_name = findViewById(R.id.etRegister_name);
+        this.textInputLayout_email = findViewById(R.id.etRegister_email);
+        this.textInputLayout_password = findViewById(R.id.etRegister_password);
         this.button_register = findViewById(R.id.btnRegister_register);
         this.progressBar_register = findViewById(R.id.progressBar_register);
     }

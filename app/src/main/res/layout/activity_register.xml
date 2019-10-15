@@ -4,41 +4,70 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@drawable/background_login_desfoque_25">
+    android:orientation="vertical">
 
-    <EditText
+    <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/etRegister_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
-        android:background="@drawable/background_edittext"
-        android:inputType="text"
-        android:hint="@string/name"/>
+        app:boxCornerRadiusBottomEnd="10dp"
+        app:boxCornerRadiusBottomStart="10dp"
+        app:boxCornerRadiusTopEnd="10dp"
+        app:boxCornerRadiusTopStart="10dp"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
-    <EditText
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/name"
+            android:inputType="textPersonName"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/etRegister_email"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
-        android:background="@drawable/background_edittext"
-        android:inputType="textEmailAddress"
-        android:hint="@string/email"/>
+        app:boxCornerRadiusBottomEnd="10dp"
+        app:boxCornerRadiusBottomStart="10dp"
+        app:boxCornerRadiusTopEnd="10dp"
+        app:boxCornerRadiusTopStart="10dp"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
-    <EditText
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/email"
+            android:inputType="textEmailAddress"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/etRegister_password"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
-        android:background="@drawable/background_edittext"
-        android:inputType="textVisiblePassword"
-        android:hint="@string/password"/>
+        app:boxCornerRadiusBottomEnd="10dp"
+        app:boxCornerRadiusBottomStart="10dp"
+        app:boxCornerRadiusTopEnd="10dp"
+        app:boxCornerRadiusTopStart="10dp"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/password"
+            android:inputType="textVisiblePassword"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
 
     <Button
         android:id="@+id/btnRegister_register"
@@ -50,9 +79,8 @@
         android:padding="16dp"
         android:elevation="16dp"
         android:text="@string/register3"
-        android:fontFamily="casual"
         android:textColor="@color/colorAccent"
-        android:background="@drawable/background_btn_login"/>
+        android:backgroundTint="@color/colorPrimaryDark"/>
 
     <ProgressBar
         android:id="@+id/progressBar_register"
