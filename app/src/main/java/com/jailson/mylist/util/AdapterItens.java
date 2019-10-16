@@ -52,10 +52,10 @@ public class AdapterItens extends BaseAdapter {
         TextView price = view.findViewById(R.id.textview_price_iten);
         TextView qtd = view.findViewById(R.id.textview_qtd_iten);
 
-        name.setText(name.getText() + iten.getName());
-        mark.setText(mark.getText() + iten.getMark());
-        price.setText(price.getText() + "" + iten.getPrice());
-        qtd.setText(qtd.getText() + "" + iten.getQtd());
+        name.setText(iten.getName());
+        mark.setText(iten.getMark());
+        price.setText(Double.toString(iten.getPrice()));
+        qtd.setText(Integer.toString(iten.getQtd()));
 
         return view;
     }

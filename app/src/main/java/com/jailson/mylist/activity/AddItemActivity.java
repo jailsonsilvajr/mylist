@@ -1,5 +1,6 @@
 package com.jailson.mylist.activity;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.AsyncTask;
@@ -9,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputLayout;
 import com.jailson.mylist.R;
@@ -79,7 +81,7 @@ public class AddItemActivity extends AppCompatActivity {
                 Item item = new Item(0,
                         textInputLayout_name.getEditText().getText().toString(),
                         textInputLayout_mark.getEditText().getText().toString(),
-                        Double.parseDouble(String.valueOf(textInputLayout_price.getEditText().getText())),
+                        Double.parseDouble(textInputLayout_price.getEditText().getText().toString()),
                         Integer.parseInt(String.valueOf(textview_item_qtd.getText())),
                         list.getId(),
                         "url_img");
