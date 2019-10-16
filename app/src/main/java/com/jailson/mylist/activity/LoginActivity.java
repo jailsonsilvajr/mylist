@@ -1,8 +1,10 @@
 package com.jailson.mylist.activity;
 
+import android.content.Context;
 import android.content.Intent;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
@@ -102,6 +104,13 @@ public class LoginActivity extends AppCompatActivity {
 
             progressBar_login.setVisibility(View.GONE);
             if(user != null){
+
+                SharedPreferences sharedPreferences = getSharedPreferences("id", Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putInt("id", user.getId());
+                editor.putString("name", user.getName());
+                editor.putString("email", user.getEmail());
+                editor.apply();
 
                 Intent intent = new Intent(LoginActivity.this, ListsActivity.class);
                 intent.putExtra("user", user);
