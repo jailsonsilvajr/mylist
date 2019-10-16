@@ -1,12 +1,17 @@
 package com.jailson.mylist.activity;
 
+import android.content.Context;
 import android.content.Intent;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -38,8 +43,8 @@ public class ListsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lists);
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true); //Show button
-        getSupportActionBar().setHomeButtonEnabled(true); //Activate button
+        //getSupportActionBar().setDisplayHomeAsUpEnabled(true); //Show button
+        //getSupportActionBar().setHomeButtonEnabled(true); //Activate button
 
         this.user = (User) getIntent().getSerializableExtra("user");
 
@@ -104,6 +109,41 @@ public class ListsActivity extends AppCompatActivity {
                 show_lists();
             }
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_list, menu);
+
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        int id = item.getItemId();
+        if(id == R.id.menuList_logout){
+
+            SharedPreferences sharedPreferences = getSharedPreferences("id", Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPreferences.edit().remove("id");
+            editor.apply();
+
+            sharedPreferences = getSharedPreferences("name", Context.MODE_PRIVATE);
+            editor = sharedPreferences.edit().remove("name");
+            editor.apply();
+
+            sharedPreferences = getSharedPreferences("email", Context.MODE_PRIVATE);
+            editor = sharedPreferences.edit().remove("email");
+            editor.apply();
+
+            Intent intent = new Intent(ListsActivity.this, LoginActivity.class);
+            startActivity(intent);
+            finish();
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     private class GetLists extends AsyncTask<Void, Void, List<com.jailson.mylist.object.List> >{
