@@ -15,6 +15,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.jailson.mylist.R;
@@ -170,7 +171,8 @@ public class ListsActivity extends AppCompatActivity {
         protected void onPostExecute(List<com.jailson.mylist.object.List> lists_result) {
 
             lists = lists_result;
-            show_lists();
+            if(lists_result != null) show_lists();
+            else Toast.makeText(ListsActivity.this, "Erro! =[", Toast.LENGTH_LONG).show();
             super.onPostExecute(lists_result);
         }
     }
