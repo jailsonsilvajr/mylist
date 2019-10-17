@@ -140,8 +140,14 @@ public class AddItemActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(Boolean aBoolean) {
 
-            setResult(RESULT_OK);
-            finish();
+            if(aBoolean){
+
+                setResult(RESULT_OK);
+                finish();
+            }else{
+
+                Toast.makeText(AddItemActivity.this, "Fail add", Toast.LENGTH_LONG).show();
+            }
 
             super.onPostExecute(aBoolean);
         }
