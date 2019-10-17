@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputLayout;
 import com.jailson.mylist.R;
@@ -179,8 +180,14 @@ public class EditItemActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(Boolean aBoolean) {
 
-            setResult(RESULT_OK);
-            finish();
+            if(aBoolean){
+
+                setResult(RESULT_OK);
+                finish();
+            }else{
+
+                Toast.makeText(EditItemActivity.this, "Fail add", Toast.LENGTH_LONG).show();
+            }
 
             super.onPostExecute(aBoolean);
         }
