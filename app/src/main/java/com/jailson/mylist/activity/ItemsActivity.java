@@ -1,15 +1,19 @@
 package com.jailson.mylist.activity;
 
+import android.content.Context;
 import android.content.Intent;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ListView;
+import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,7 +22,6 @@ import com.jailson.mylist.R;
 import com.jailson.mylist.object.Item;
 import com.jailson.mylist.object.List;
 import com.jailson.mylist.service.Service;
-import com.jailson.mylist.util.AdapterItens;
 
 import java.text.DecimalFormat;
 
@@ -26,9 +29,10 @@ public class ItemsActivity extends AppCompatActivity {
 
     private TextView tvItens_nameList;
     private TextView tvItens_priceList;
-    private ListView listView_itens;
+    private RecyclerView recyclerView_items;
     private FloatingActionButton fabItems;
 
+    private RecyclerItemsAdapter recyclerItemsAdapter;
     private List list;
     private java.util.List<Item> items;
     private Service service;
@@ -55,33 +59,16 @@ public class ItemsActivity extends AppCompatActivity {
 
         this.tvItens_nameList = findViewById(R.id.tvItens_nameList);
         this.tvItens_priceList = findViewById(R.id.tvItens_priceList);
-        this.listView_itens = findViewById(R.id.lvItens_itens);
+
         this.fabItems = findViewById(R.id.fabItems);
 
         this.tvItens_nameList.setText(list.getName());
 
         getItems();
 
-        clicks();
-    }
-
-    private void count_value() {
-
-        this.value = 0.0;
-        for(int i = 0; i < this.items.size(); i++) this.value += (this.items.get(i).getPrice() * this.items.get(i).getQtd());
-        if(this.value != 0.0) this.tvItens_priceList.setText("R$: " + this.df.format(this.value));
-        else this.tvItens_priceList.setText("R$: 0");
-    }
-
-    private void clicks() {
-
-        this.listView_itens.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-                clickItem(position);
-            }
-        });
+        this.recyclerView_items = findViewById(R.id.recycler_view_activity_items);
+        this.recyclerView_items.setHasFixedSize(true);
+        this.recyclerView_items.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
 
         this.fabItems.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -92,10 +79,12 @@ public class ItemsActivity extends AppCompatActivity {
         });
     }
 
-    private void show_items() {
+    private void count_value() {
 
-        AdapterItens adapterItens = new AdapterItens(this.items, this);
-        this.listView_itens.setAdapter(adapterItens);
+        this.value = 0.0;
+        for(int i = 0; i < this.items.size(); i++) this.value += (this.items.get(i).getPrice() * this.items.get(i).getQtd());
+        if(this.value != 0.0) this.tvItens_priceList.setText("R$: " + this.df.format(this.value));
+        else this.tvItens_priceList.setText("R$: 0");
     }
 
     private void getItems(){
@@ -109,15 +98,6 @@ public class ItemsActivity extends AppCompatActivity {
         Intent intent = new Intent(this, AddItemActivity.class);
         intent.putExtra("list", this.list);
         startActivityForResult(intent, ACTIVITY_ADDITEM_REQUEST);
-    }
-
-
-
-    private void clickItem(int position){
-
-        Intent intent = new Intent(this, EditItemActivity.class);
-        intent.putExtra("item", this.items.get(position));
-        startActivityForResult(intent, ACTIVITY_EDITITEM_REQUEST);
     }
 
     @Override
@@ -163,11 +143,100 @@ public class ItemsActivity extends AppCompatActivity {
 
                 items = result;
                 count_value();
-                show_items();
+
+                recyclerItemsAdapter = new RecyclerItemsAdapter(items, getApplicationContext(), service);
+                recyclerView_items.setAdapter(recyclerItemsAdapter);
             }
             else Toast.makeText(ItemsActivity.this, "Fail", Toast.LENGTH_LONG).show();
 
             super.onPostExecute(result);
+        }
+    }
+
+    private class RecyclerItemsAdapter extends RecyclerView.Adapter<ViewHolderItems>{
+
+        private java.util.List<Item> items;
+        private Context context;
+        private Service service;
+
+        public RecyclerItemsAdapter(java.util.List<Item> items, Context context, Service service) {
+
+            this.items = items;
+            this.context = context;
+            this.service = service;
+        }
+
+        @NonNull
+        @Override
+        public ViewHolderItems onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recyclerview_items, parent, false);
+            final ViewHolderItems viewHolderItems = new ViewHolderItems(view);
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    clickItemRecyclerView(items.get(viewHolderItems.getAdapterPosition()));
+                }
+            });
+
+            return viewHolderItems;
+        }
+
+        private void clickItemRecyclerView(Item item) {
+
+            Intent intent = new Intent(this.context, EditItemActivity.class);
+            intent.putExtra("item", item);
+            startActivityForResult(intent, ACTIVITY_EDITITEM_REQUEST);
+        }
+
+        @Override
+        public void onBindViewHolder(@NonNull ViewHolderItems holder, int position) {
+
+            Item item = this.items.get(position);
+            holder.getTextView_name().setText(item.getName());
+            holder.getTextView_mark().setText(item.getMark());
+            holder.getTextView_qtd().setText(item.getQtd()+"");
+            holder.getTextView_price().setText(Double.toString(item.getPrice()));
+        }
+
+        @Override
+        public int getItemCount() {
+
+            return this.items.size();
+        }
+    }
+
+    private class ViewHolderItems extends RecyclerView.ViewHolder{
+
+        private TextView textView_name;
+        private TextView textView_mark;
+        private TextView textView_qtd;
+        private TextView textView_price;
+
+        public ViewHolderItems(@NonNull View itemView) {
+
+            super(itemView);
+            this.textView_name = itemView.findViewById(R.id.textview_name_iten);
+            this.textView_mark = itemView.findViewById(R.id.textview_mark_iten);
+            this.textView_qtd = itemView.findViewById(R.id.textview_qtd_iten);
+            this.textView_price = itemView.findViewById(R.id.textview_price_iten);
+        }
+
+        public TextView getTextView_name() {
+            return textView_name;
+        }
+
+        public TextView getTextView_mark() {
+            return textView_mark;
+        }
+
+        public TextView getTextView_qtd() {
+            return textView_qtd;
+        }
+
+        public TextView getTextView_price() {
+            return textView_price;
         }
     }
 }

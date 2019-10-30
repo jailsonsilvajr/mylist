@@ -14,7 +14,8 @@
         android:layout_height="100dp"
         android:paddingTop="16dp"
         android:background="@color/colorPrimary"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:elevation="10dp">
 
         <TextView
             android:id="@+id/tvItens_nameList"
@@ -36,18 +37,15 @@
             android:fontFamily="casual"
             android:textColor="@color/colorAccent"
             android:textSize="8pt"/>
+
     </LinearLayout>
 
-    <ListView
-        android:id="@+id/lvItens_itens"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view_activity_items"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:elevation="5dp"
-        android:layout_below="@+id/linearLayout_namelist">
-    </ListView>
+        android:layout_below="@+id/linearLayout_namelist"
+        android:scrollbars="vertical"/>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fabItems"
