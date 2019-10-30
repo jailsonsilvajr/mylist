@@ -25,7 +25,7 @@ public class EditItemActivity extends AppCompatActivity {
     private ImageView imageview_item_less;
     private TextView textview_item_qtd;
     private Button button_item_save;
-    private Button button_item_delete;
+    //private Button button_item_delete;
 
     private Item item;
     private Service service;
@@ -86,14 +86,14 @@ public class EditItemActivity extends AppCompatActivity {
             }
         });
 
-        this.button_item_delete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                DeleteItem deleteItem = new DeleteItem(item);
-                deleteItem.execute();
-            }
-        });
+//        this.button_item_delete.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//                DeleteItem deleteItem = new DeleteItem(item);
+//                deleteItem.execute();
+//            }
+//        });
     }
 
     private void set_views() {
@@ -113,7 +113,7 @@ public class EditItemActivity extends AppCompatActivity {
         this.imageview_item_less= findViewById(R.id.imageview_item_less);
         this.textview_item_qtd = findViewById(R.id.textview_item_qtd);
         this.button_item_save = findViewById(R.id.button_item_save);
-        this.button_item_delete = findViewById(R.id.button_item_delete);
+        //this.button_item_delete = findViewById(R.id.button_item_delete);
     }
 
     @Override
@@ -128,34 +128,34 @@ public class EditItemActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private class DeleteItem extends AsyncTask<Void, Void, Boolean>{
-
-        private Item item;
-
-        public DeleteItem(Item item){
-
-            this.item = item;
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-        }
-
-        @Override
-        protected Boolean doInBackground(Void... voids) {
-            return service.deleteItem(this.item);
-        }
-
-        @Override
-        protected void onPostExecute(Boolean result) {
-
-            setResult(RESULT_OK);
-            finish();
-
-            super.onPostExecute(result);
-        }
-    }
+//    private class DeleteItem extends AsyncTask<Void, Void, Boolean>{
+//
+//        private Item item;
+//
+//        public DeleteItem(Item item){
+//
+//            this.item = item;
+//        }
+//
+//        @Override
+//        protected void onPreExecute() {
+//            super.onPreExecute();
+//        }
+//
+//        @Override
+//        protected Boolean doInBackground(Void... voids) {
+//            return service.deleteItem(this.item);
+//        }
+//
+//        @Override
+//        protected void onPostExecute(Boolean result) {
+//
+//            setResult(RESULT_OK);
+//            finish();
+//
+//            super.onPostExecute(result);
+//        }
+//    }
 
     private class UpdateItem extends AsyncTask<Void, Void, Boolean>{
 

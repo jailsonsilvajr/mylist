@@ -101,8 +101,6 @@ public class AddItemActivity extends AppCompatActivity {
         this.imageview_item_less = findViewById(R.id.imageview_item_less);
         this.textview_item_qtd = findViewById(R.id.textview_item_qtd);
         this.button_item_save = findViewById(R.id.button_item_save);
-        this.button_item_delete = findViewById(R.id.button_item_delete);
-        this.button_item_delete.setVisibility(View.INVISIBLE);
     }
 
     @Override
