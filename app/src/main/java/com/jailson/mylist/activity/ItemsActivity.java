@@ -303,7 +303,7 @@ public class ItemsActivity extends AppCompatActivity {
             super(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT);
             this.recyclerItemsAdapter = recyclerItemsAdapter;
 
-            this.icon_remove_cart = ContextCompat.getDrawable(getApplicationContext(), R.drawable.icon_remove_cart);
+            this.icon_remove_cart = ContextCompat.getDrawable(getApplicationContext(), R.drawable.icon_remove_to_list);
 
             this.icon_add_cart = ContextCompat.getDrawable(getApplicationContext(), R.drawable.icon_add_cart);
 
@@ -330,19 +330,20 @@ public class ItemsActivity extends AppCompatActivity {
             super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
 
             View view = viewHolder.itemView;
+            int backgroundCornerOffset = 17;
 
             if(dX > 0){ //right
 
-                int iconAddMargin = (view.getHeight() - icon_add_cart.getIntrinsicHeight()/2);
+                int iconAddMargin = (view.getHeight() - icon_add_cart.getIntrinsicHeight()) / 2;
                 int iconAddTop = view.getTop() + (view.getHeight() - icon_add_cart.getIntrinsicHeight()) / 2;
                 int iconAddBottom = iconAddTop + icon_add_cart.getIntrinsicHeight();
 
                 int iconLeft = view.getLeft() + iconAddMargin;
                 int iconRight = view.getLeft() + iconAddMargin + icon_add_cart.getIntrinsicWidth();
-                icon_add_cart.setBounds(iconLeft, iconAddTop, iconRight, iconAddBottom);
 
+                icon_add_cart.setBounds(iconLeft, iconAddTop, iconRight, iconAddBottom);
                 background_add.setBounds(view.getLeft(), view.getTop(),
-                        view.getLeft() + ((int) dX), view.getBottom());
+                        view.getLeft() + ((int) dX) + backgroundCornerOffset, view.getBottom());
 
                 background_add.draw(c);
                 icon_add_cart.draw(c);
@@ -354,10 +355,10 @@ public class ItemsActivity extends AppCompatActivity {
 
                 int iconLeft = view.getRight() - iconDeleteMargin - icon_remove_cart.getIntrinsicWidth();
                 int iconRight = view.getRight() - iconDeleteMargin;
-                icon_remove_cart.setBounds(iconLeft, iconDeleteTop, iconRight, iconDeleteBottom);
 
+                icon_remove_cart.setBounds(iconLeft, iconDeleteTop, iconRight, iconDeleteBottom);
                 background_remove.setBounds(view.getRight(), view.getTop(),
-                        view.getRight() + ((int) dX), view.getBottom());
+                        view.getRight() + ((int) dX) - backgroundCornerOffset, view.getBottom());
 
                 background_remove.draw(c);
                 icon_remove_cart.draw(c);
