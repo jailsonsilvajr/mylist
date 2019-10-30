@@ -6,9 +6,15 @@ import android.content.Intent;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -146,8 +152,43 @@ public class ItemsActivity extends AppCompatActivity {
 
                 recyclerItemsAdapter = new RecyclerItemsAdapter(items, getApplicationContext(), service);
                 recyclerView_items.setAdapter(recyclerItemsAdapter);
+
+                ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new Swipe(recyclerItemsAdapter));
+                itemTouchHelper.attachToRecyclerView(recyclerView_items);
             }
             else Toast.makeText(ItemsActivity.this, "Fail", Toast.LENGTH_LONG).show();
+
+            super.onPostExecute(result);
+        }
+    }
+
+    private class DeleteItem extends AsyncTask<Void, Void, Boolean>{
+
+        private Item item;
+        private int position;
+
+        public DeleteItem(Item item, int position){
+
+            this.item = item;
+            this.position = position;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... voids) {
+            return service.deleteItem(this.item);
+        }
+
+        @Override
+        protected void onPostExecute(Boolean result) {
+
+            items.remove(position);
+            recyclerItemsAdapter.notifyItemRemoved(position);
+            count_value();
 
             super.onPostExecute(result);
         }
@@ -165,6 +206,14 @@ public class ItemsActivity extends AppCompatActivity {
             this.context = context;
             this.service = service;
         }
+
+        public void deleteItem(int position){
+
+            DeleteItem deleteItem = new DeleteItem(items.get(position), position);
+            deleteItem.execute();
+        }
+
+
 
         @NonNull
         @Override
@@ -237,6 +286,82 @@ public class ItemsActivity extends AppCompatActivity {
 
         public TextView getTextView_price() {
             return textView_price;
+        }
+    }
+
+    private class Swipe extends ItemTouchHelper.SimpleCallback{
+
+        private RecyclerItemsAdapter recyclerItemsAdapter;
+
+        private Drawable icon_remove_cart;
+        private Drawable icon_add_cart;
+        private final ColorDrawable background_remove;
+        private final ColorDrawable background_add;
+
+        public Swipe(RecyclerItemsAdapter recyclerItemsAdapter){
+
+            super(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT);
+            this.recyclerItemsAdapter = recyclerItemsAdapter;
+
+            this.icon_remove_cart = ContextCompat.getDrawable(getApplicationContext(), R.drawable.icon_remove_cart);
+
+            this.icon_add_cart = ContextCompat.getDrawable(getApplicationContext(), R.drawable.icon_add_cart);
+
+            this.background_remove = new ColorDrawable(Color.RED);
+            this.background_add = new ColorDrawable(Color.GREEN);
+        }
+
+        @Override
+        public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+            return false;
+        }
+
+        @Override
+        public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+
+            int position = viewHolder.getAdapterPosition();
+            if(direction == ItemTouchHelper.LEFT) this.recyclerItemsAdapter.deleteItem(position);
+            else this.recyclerItemsAdapter.notifyDataSetChanged();
+        }
+
+        @Override
+        public void onChildDraw(@NonNull Canvas c, @NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
+
+            super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
+
+            View view = viewHolder.itemView;
+
+            if(dX > 0){ //right
+
+                int iconAddMargin = (view.getHeight() - icon_add_cart.getIntrinsicHeight()/2);
+                int iconAddTop = view.getTop() + (view.getHeight() - icon_add_cart.getIntrinsicHeight()) / 2;
+                int iconAddBottom = iconAddTop + icon_add_cart.getIntrinsicHeight();
+
+                int iconLeft = view.getLeft() + iconAddMargin;
+                int iconRight = view.getLeft() + iconAddMargin + icon_add_cart.getIntrinsicWidth();
+                icon_add_cart.setBounds(iconLeft, iconAddTop, iconRight, iconAddBottom);
+
+                background_add.setBounds(view.getLeft(), view.getTop(),
+                        view.getLeft() + ((int) dX), view.getBottom());
+
+                background_add.draw(c);
+                icon_add_cart.draw(c);
+            } else if (dX < 0) { //left
+
+                int iconDeleteMargin = (view.getHeight() - icon_remove_cart.getIntrinsicHeight()) / 2;
+                int iconDeleteTop = view.getTop() + (view.getHeight() - icon_remove_cart.getIntrinsicHeight()) / 2;
+                int iconDeleteBottom = iconDeleteTop + icon_remove_cart.getIntrinsicHeight();
+
+                int iconLeft = view.getRight() - iconDeleteMargin - icon_remove_cart.getIntrinsicWidth();
+                int iconRight = view.getRight() - iconDeleteMargin;
+                icon_remove_cart.setBounds(iconLeft, iconDeleteTop, iconRight, iconDeleteBottom);
+
+                background_remove.setBounds(view.getRight(), view.getTop(),
+                        view.getRight() + ((int) dX), view.getBottom());
+
+                background_remove.draw(c);
+                icon_remove_cart.draw(c);
+            }
         }
     }
 }
