@@ -150,11 +150,17 @@ public class ItemsActivity extends AppCompatActivity {
                 items = result;
                 count_value();
 
-                recyclerItemsAdapter = new RecyclerItemsAdapter(items, getApplicationContext(), service);
-                recyclerView_items.setAdapter(recyclerItemsAdapter);
+                if(recyclerItemsAdapter != null){
 
-                ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new Swipe(recyclerItemsAdapter));
-                itemTouchHelper.attachToRecyclerView(recyclerView_items);
+                    recyclerItemsAdapter.setListItems(items);
+                    recyclerItemsAdapter.notifyDataSetChanged();
+                }else{
+
+                    recyclerItemsAdapter = new RecyclerItemsAdapter(items, getApplicationContext(), service);
+                    recyclerView_items.setAdapter(recyclerItemsAdapter);
+                    ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new Swipe(recyclerItemsAdapter));
+                    itemTouchHelper.attachToRecyclerView(recyclerView_items);
+                }
             }
             else Toast.makeText(ItemsActivity.this, "Fail", Toast.LENGTH_LONG).show();
 
@@ -209,7 +215,7 @@ public class ItemsActivity extends AppCompatActivity {
 
         public void deleteItem(int position){
 
-            DeleteItem deleteItem = new DeleteItem(items.get(position), position);
+            DeleteItem deleteItem = new DeleteItem(this.items.get(position), position);
             deleteItem.execute();
         }
 
@@ -253,6 +259,11 @@ public class ItemsActivity extends AppCompatActivity {
         public int getItemCount() {
 
             return this.items.size();
+        }
+
+        public void setListItems(java.util.List<Item> items){
+
+            this.items = items;
         }
     }
 

@@ -78,10 +78,13 @@ public class AddItemActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+                String price = textInputLayout_price.getEditText().getText().toString();
+                if(price.length() <= 0) price = "0";
+
                 Item item = new Item(0,
                         textInputLayout_name.getEditText().getText().toString(),
                         textInputLayout_mark.getEditText().getText().toString(),
-                        Double.parseDouble(textInputLayout_price.getEditText().getText().toString()),
+                        Double.parseDouble(price),
                         Integer.parseInt(String.valueOf(textview_item_qtd.getText())),
                         list.getId(),
                         "url_img");
