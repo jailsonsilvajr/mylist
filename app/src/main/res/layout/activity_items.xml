@@ -5,13 +5,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity.ItemsActivity"
-    android:orientation="vertical">
+    tools:context=".activity.ItemsActivity">
 
     <LinearLayout
         android:id="@+id/linearLayout_namelist"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="70dp"
         android:paddingTop="16dp"
         android:background="@color/colorPrimary"
         android:orientation="vertical"
@@ -28,16 +27,6 @@
             android:textColor="@color/colorAccent"
             android:textSize="12pt"/>
 
-        <TextView
-            android:id="@+id/tvItens_priceList"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="R$ 0.00"
-            android:gravity="center_horizontal"
-            android:fontFamily="casual"
-            android:textColor="@color/colorAccent"
-            android:textSize="8pt"/>
-
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
@@ -45,6 +34,20 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/linearLayout_namelist"
+        android:layout_above="@+id/button_price_list"
         android:scrollbars="vertical"/>
+
+    <Button
+        android:id="@+id/button_price_list"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/colorPrimary"
+        android:text="R$ 0.00"
+        android:fontFamily="casual"
+        android:textColor="@color/colorAccent"
+        android:textSize="8pt">
+
+    </Button>
 
 </RelativeLayout>

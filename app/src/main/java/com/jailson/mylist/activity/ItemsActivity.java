@@ -23,6 +23,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,8 +38,8 @@ import java.text.DecimalFormat;
 public class ItemsActivity extends AppCompatActivity {
 
     private TextView tvItens_nameList;
-    private TextView tvItens_priceList;
     private RecyclerView recyclerView_items;
+    private Button button_price_list;
 
     private RecyclerItemsAdapter recyclerItemsAdapter;
     private List list;
@@ -66,7 +67,7 @@ public class ItemsActivity extends AppCompatActivity {
         this.list = (List) getIntent().getSerializableExtra("list");
 
         this.tvItens_nameList = findViewById(R.id.tvItens_nameList);
-        this.tvItens_priceList = findViewById(R.id.tvItens_priceList);
+        this.button_price_list = findViewById(R.id.button_price_list);
 
         this.tvItens_nameList.setText(list.getName());
 
@@ -81,8 +82,8 @@ public class ItemsActivity extends AppCompatActivity {
 
         this.value = 0.0;
         for(int i = 0; i < this.items.size(); i++) this.value += (this.items.get(i).getPrice() * this.items.get(i).getQtd());
-        if(this.value != 0.0) this.tvItens_priceList.setText("R$: " + this.df.format(this.value));
-        else this.tvItens_priceList.setText("R$: 0");
+        if(this.value != 0.0) this.button_price_list.setText("R$: " + this.df.format(this.value));
+        else this.button_price_list.setText("R$: 0.00");
     }
 
     private void getItems(){
