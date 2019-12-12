@@ -18,6 +18,9 @@ import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -36,7 +39,6 @@ public class ItemsActivity extends AppCompatActivity {
     private TextView tvItens_nameList;
     private TextView tvItens_priceList;
     private RecyclerView recyclerView_items;
-    private FloatingActionButton fabItems;
 
     private RecyclerItemsAdapter recyclerItemsAdapter;
     private List list;
@@ -66,8 +68,6 @@ public class ItemsActivity extends AppCompatActivity {
         this.tvItens_nameList = findViewById(R.id.tvItens_nameList);
         this.tvItens_priceList = findViewById(R.id.tvItens_priceList);
 
-        this.fabItems = findViewById(R.id.fabItems);
-
         this.tvItens_nameList.setText(list.getName());
 
         getItems();
@@ -75,14 +75,6 @@ public class ItemsActivity extends AppCompatActivity {
         this.recyclerView_items = findViewById(R.id.recycler_view_activity_items);
         this.recyclerView_items.setHasFixedSize(true);
         this.recyclerView_items.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-
-        this.fabItems.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                clickAddItem();
-            }
-        });
     }
 
     private void count_value() {
@@ -119,6 +111,29 @@ public class ItemsActivity extends AppCompatActivity {
 
                 getItems();
             }
+        }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_item, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()) {
+
+            case R.id.menuItem_add: {
+
+                clickAddItem();
+                return true;
+            }
+            default:
+                return super.onOptionsItemSelected(item);
         }
     }
 
