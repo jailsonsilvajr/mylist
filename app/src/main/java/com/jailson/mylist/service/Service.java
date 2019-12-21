@@ -16,7 +16,8 @@ import java.util.List;
 
 public class Service {
 
-    private final String url = "https://jjsj2.000webhostapp.com/mylist/";
+    //private final String url = "https://jjsj2.000webhostapp.com/mylist/";
+    private final String url = "http://192.168.0.110/mylist/";
 
     public User login(String email, String password) {
 

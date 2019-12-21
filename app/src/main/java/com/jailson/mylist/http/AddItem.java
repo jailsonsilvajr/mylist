@@ -1,5 +1,7 @@
 package com.jailson.mylist.http;
 
+import android.util.Log;
+
 import com.jailson.mylist.object.Item;
 
 import org.json.JSONException;
@@ -39,6 +41,7 @@ public class AddItem {
             jsonObject.put("price", item.getPrice());
             jsonObject.put("quantity", item.getQtd());
             jsonObject.put("id_list", item.getId_list());
+            jsonObject.put("into_cart", item.getInto_cart());
 
             PrintStream printStream = new PrintStream(connection.getOutputStream());
             printStream.println(jsonObject.toString());

@@ -40,6 +40,7 @@ public class UpdateItem {
             jsonObject.put("price", this.item.getPrice());
             jsonObject.put("quantity", this.item.getQtd());
             jsonObject.put("id_list", this.item.getId_list());
+            jsonObject.put("into_cart", this.item.getInto_cart());
 
             PrintStream printStream = new PrintStream(connection.getOutputStream());
             printStream.println(jsonObject.toString());

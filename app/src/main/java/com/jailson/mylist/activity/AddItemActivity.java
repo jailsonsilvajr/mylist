@@ -1,6 +1,5 @@
 package com.jailson.mylist.activity;
 
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.AsyncTask;
@@ -27,7 +26,6 @@ public class AddItemActivity extends AppCompatActivity {
     private ImageView imageview_item_less;
     private TextView textview_item_qtd;
     private Button button_item_save;
-    private Button button_item_delete;
 
     private List list;
     private Service service;
@@ -87,6 +85,7 @@ public class AddItemActivity extends AppCompatActivity {
                         Double.parseDouble(price),
                         Integer.parseInt(String.valueOf(textview_item_qtd.getText())),
                         list.getId(),
+                        0,
                         "url_img");
 
                 AddItem addItem = new AddItem(item);

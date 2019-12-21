@@ -34,20 +34,52 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/linearLayout_namelist"
-        android:layout_above="@+id/button_price_list"
+        android:layout_above="@+id/linearlayout_price_into_cart"
         android:scrollbars="vertical"/>
 
-    <Button
-        android:id="@+id/button_price_list"
+    <LinearLayout
+        android:id="@+id/linearlayout_price_into_cart"
         android:layout_width="match_parent"
         android:layout_height="80dp"
         android:layout_alignParentBottom="true"
         android:background="@color/colorPrimary"
-        android:text="R$ 0.00"
-        android:fontFamily="casual"
-        android:textColor="@color/colorAccent"
-        android:textSize="8pt">
+        android:elevation="10dp"
+        android:orientation="horizontal">
 
-    </Button>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1.5">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/icon_add_cart"
+                android:layout_gravity="center"
+                android:layout_marginLeft="16dp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/textview_price_into_cart"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="R$ 0.00"
+                android:textSize="8pt"
+                android:layout_gravity="center" />
+
+        </LinearLayout>
+
+
+
+
+
+    </LinearLayout>
+
 
 </RelativeLayout>

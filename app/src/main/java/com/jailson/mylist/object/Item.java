@@ -1,7 +1,6 @@
 package com.jailson.mylist.object;
 
 import java.io.Serializable;
-import java.net.URL;
 
 public class Item implements Serializable {
 
@@ -11,15 +10,17 @@ public class Item implements Serializable {
     private double price;
     private int quantity;
     private int id_list;
+    private int into_cart;
     private String url_img;
 
-    public Item(int id, String name, String mark, double price, int quantity, int id_list, String url_img) {
+    public Item(int id, String name, String mark, double price, int quantity, int id_list, int into_cart, String url_img) {
         this.id = id;
         this.name = name;
         this.mark = mark;
         this.price = price;
         this.quantity = quantity;
         this.id_list = id_list;
+        this.into_cart = into_cart;
         this.url_img = url_img;
     }
 
@@ -71,11 +72,15 @@ public class Item implements Serializable {
         this.id_list = id_list;
     }
 
-    public String getUrl_img() {
-        return url_img;
+    public int getInto_cart() {
+        return into_cart;
     }
 
-    public void setUrl_img(String url_img) {
-        this.url_img = url_img;
+    public void setInto_cart(int into_cart) {
+        this.into_cart = into_cart;
+    }
+
+    public String getUrl_img() {
+        return url_img;
     }
 }

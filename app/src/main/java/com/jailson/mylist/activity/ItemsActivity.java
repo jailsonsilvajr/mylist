@@ -23,11 +23,9 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.jailson.mylist.R;
 import com.jailson.mylist.object.Item;
 import com.jailson.mylist.object.List;
@@ -39,11 +37,12 @@ public class ItemsActivity extends AppCompatActivity {
 
     private TextView tvItens_nameList;
     private RecyclerView recyclerView_items;
-    private Button button_price_list;
+    private TextView textview_price_into_cart;
 
     private RecyclerItemsAdapter recyclerItemsAdapter;
     private List list;
     private java.util.List<Item> items;
+    private java.util.List<Item> items_in_cart;
     private Service service;
 
     private double value;
@@ -67,7 +66,7 @@ public class ItemsActivity extends AppCompatActivity {
         this.list = (List) getIntent().getSerializableExtra("list");
 
         this.tvItens_nameList = findViewById(R.id.tvItens_nameList);
-        this.button_price_list = findViewById(R.id.button_price_list);
+        this.textview_price_into_cart = findViewById(R.id.textview_price_into_cart);
 
         this.tvItens_nameList.setText(list.getName());
 
@@ -81,9 +80,12 @@ public class ItemsActivity extends AppCompatActivity {
     private void count_value() {
 
         this.value = 0.0;
-        for(int i = 0; i < this.items.size(); i++) this.value += (this.items.get(i).getPrice() * this.items.get(i).getQtd());
-        if(this.value != 0.0) this.button_price_list.setText("R$: " + this.df.format(this.value));
-        else this.button_price_list.setText("R$: 0.00");
+        for(int i = 0; i < this.items.size(); i++) {
+
+            if(this.items.get(i).getInto_cart() != 0) this.value += (this.items.get(i).getPrice() * this.items.get(i).getQtd());
+        }
+        if(this.value != 0.0) this.textview_price_into_cart.setText("R$: " + this.df.format(this.value));
+        else this.textview_price_into_cart.setText("R$: 0.00");
     }
 
     private void getItems(){
@@ -216,6 +218,38 @@ public class ItemsActivity extends AppCompatActivity {
         }
     }
 
+    private class UpdateItem extends AsyncTask<Void, Void, Boolean>{
+
+        private Item item;
+        private int position;
+
+        public UpdateItem(Item item, int position){
+
+            this.item = item;
+            this.position = position;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... voids) {
+            return service.updateItem(this.item);
+        }
+
+        @Override
+        protected void onPostExecute(Boolean result) {
+
+            if(result) count_value();
+            else this.item.setInto_cart(0);
+
+            recyclerItemsAdapter.notifyDataSetChanged();
+            super.onPostExecute(result);
+        }
+    }
+
     private class RecyclerItemsAdapter extends RecyclerView.Adapter<ViewHolderItems>{
 
         private java.util.List<Item> items;
@@ -235,7 +269,12 @@ public class ItemsActivity extends AppCompatActivity {
             deleteItem.execute();
         }
 
+        public void addIntoCart(int position){
 
+            this.items.get(position).setInto_cart(1);
+            UpdateItem updateItem = new UpdateItem(this.items.get(position), position);
+            updateItem.execute();
+        }
 
         @NonNull
         @Override
@@ -348,7 +387,7 @@ public class ItemsActivity extends AppCompatActivity {
 
             int position = viewHolder.getAdapterPosition();
             if(direction == ItemTouchHelper.LEFT) this.recyclerItemsAdapter.deleteItem(position);
-            else this.recyclerItemsAdapter.notifyDataSetChanged();
+            else this.recyclerItemsAdapter.addIntoCart(position);
         }
 
         @Override
