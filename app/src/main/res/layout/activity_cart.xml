@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.CartActivity">
+
+    <LinearLayout
+        android:id="@+id/linearLayout_nameCart"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:paddingTop="16dp"
+        android:background="@color/colorPrimary"
+        android:orientation="vertical"
+        android:elevation="10dp">
+
+        <TextView
+            android:id="@+id/tvCart_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Cart - List"
+            android:gravity="center_horizontal"
+            android:layout_gravity="center_vertical"
+            android:fontFamily="casual"
+            android:textColor="@color/colorAccent"
+            android:textSize="12pt"/>
+
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view_activity_cart"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/linearLayout_nameCart"
+        android:scrollbars="vertical"/>
+
+</RelativeLayout>

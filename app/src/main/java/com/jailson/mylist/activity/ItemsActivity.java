@@ -23,6 +23,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,6 +39,7 @@ public class ItemsActivity extends AppCompatActivity {
     private TextView tvItens_nameList;
     private RecyclerView recyclerView_items;
     private TextView textview_price_into_cart;
+    private LinearLayout linearlayout_price_into_cart;
 
     private RecyclerItemsAdapter recyclerItemsAdapter;
     private List list;
@@ -51,6 +53,7 @@ public class ItemsActivity extends AppCompatActivity {
 
     private static final int ACTIVITY_ADDITEM_REQUEST = 1;
     private static final int ACTIVITY_EDITITEM_REQUEST = 2;
+    private static final int ACTIVITY_CART_REQUEST = 3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,6 +78,17 @@ public class ItemsActivity extends AppCompatActivity {
         this.recyclerView_items = findViewById(R.id.recycler_view_activity_items);
         this.recyclerView_items.setHasFixedSize(true);
         this.recyclerView_items.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+
+        this.linearlayout_price_into_cart = findViewById(R.id.linearlayout_price_into_cart);
+        this.linearlayout_price_into_cart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent intent = new Intent(getApplicationContext(), CartActivity.class);
+                intent.putExtra("list", list);
+                startActivityForResult(intent, ACTIVITY_CART_REQUEST);
+            }
+        });
     }
 
     private void count_value() {
@@ -114,6 +128,11 @@ public class ItemsActivity extends AppCompatActivity {
 
                 getItems();
             }
+        }else if(requestCode == ACTIVITY_CART_REQUEST){
+            if(resultCode == RESULT_OK){
+
+                getItems();
+            }
         }
     }
 
@@ -134,6 +153,10 @@ public class ItemsActivity extends AppCompatActivity {
 
                 clickAddItem();
                 return true;
+            }
+            case android.R.id.home: {
+
+                finish();
             }
             default:
                 return super.onOptionsItemSelected(item);
