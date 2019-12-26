@@ -33,6 +33,8 @@ public class CartActivity extends AppCompatActivity {
     private RecyclerView recyclerView_cart;
     private RecyclerCartAdapter recyclerCartAdapter;
 
+    private TextView tvCart_name;
+
     private List list;
 
     private java.util.List<Item> items;
@@ -51,6 +53,9 @@ public class CartActivity extends AppCompatActivity {
 
         this.service = new Service();
         this.list = (List) getIntent().getSerializableExtra("list");
+
+        this.tvCart_name = findViewById(R.id.tvCart_name);
+        this.tvCart_name.setText("Cart - " + list.getName());
 
         getItems();
 

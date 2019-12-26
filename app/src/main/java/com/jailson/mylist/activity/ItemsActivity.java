@@ -265,7 +265,11 @@ public class ItemsActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(Boolean result) {
 
-            if(result) count_value();
+            if(result) {
+
+                getItems();
+                count_value();
+            }
             else this.item.setInto_cart(0);
 
             recyclerItemsAdapter.notifyDataSetChanged();
