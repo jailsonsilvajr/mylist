@@ -2,6 +2,8 @@ package com.jailson.mylist.activity;
 
 import android.content.Context;
 import android.content.Intent;
+
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.SharedPreferences;
@@ -12,10 +14,13 @@ import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
 import com.jailson.mylist.R;
-import com.jailson.mylist.object.User;
-import com.jailson.mylist.service.Service;
+import com.jailson.mylist.firebase.FireConnection;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -25,7 +30,7 @@ public class LoginActivity extends AppCompatActivity {
     private Button button_enter;
     private ProgressBar progressBar_login;
 
-    private final Service service = new Service();
+    private FirebaseAuth firebaseAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +59,12 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        firebaseAuth = FireConnection.getFirebaseAuth();
+    }
+
     private void click_button_register() {
 
         this.button_register.setOnClickListener(new View.OnClickListener() {
@@ -75,7 +86,7 @@ public class LoginActivity extends AppCompatActivity {
         this.progressBar_login = findViewById(R.id.progressBar_login);
     }
 
-    private class Login extends AsyncTask<String, Void, User>{
+    private class Login extends AsyncTask<String, Void, Boolean>{
 
         private String email;
         private String password;
@@ -94,33 +105,32 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         @Override
-        protected User doInBackground(String... strings) {
+        protected Boolean doInBackground(String... strings) {
 
-            return service.login(this.email, this.password);
-        }
+            firebaseAuth.signInWithEmailAndPassword(email, password)
+                    .addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
 
-        @Override
-        protected void onPostExecute(User user) {
+                            if(task.isSuccessful()){
 
-            progressBar_login.setVisibility(View.GONE);
-            if(user != null){
+                                SharedPreferences sharedPreferences = getSharedPreferences("id", Context.MODE_PRIVATE);
+                                SharedPreferences.Editor editor = sharedPreferences.edit();
+                                editor.putString("id", firebaseAuth.getCurrentUser().getUid());
+                                editor.apply();
 
-                SharedPreferences sharedPreferences = getSharedPreferences("id", Context.MODE_PRIVATE);
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putInt("id", user.getId());
-                editor.putString("name", user.getName());
-                editor.putString("email", user.getEmail());
-                editor.apply();
+                                Intent intent = new Intent(LoginActivity.this, ListsActivity.class);
+                                intent.putExtra("id_user", firebaseAuth.getCurrentUser().getUid());
+                                startActivity(intent);
+                                finish();
+                            }else{
 
-                Intent intent = new Intent(LoginActivity.this, ListsActivity.class);
-                intent.putExtra("user", user);
-                startActivity(intent);
-                finish();
-            }else{
-
-                Toast.makeText(LoginActivity.this, "Login Fail!", Toast.LENGTH_LONG).show();
-            }
-            super.onPostExecute(user);
+                                Toast.makeText(LoginActivity.this, "Login Fail!", Toast.LENGTH_LONG).show();
+                            }
+                            progressBar_login.setVisibility(View.GONE);
+                        }
+                    });
+            return true;
         }
     }
 }

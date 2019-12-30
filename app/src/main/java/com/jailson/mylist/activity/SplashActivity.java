@@ -10,7 +10,6 @@ import android.os.Handler;
 import android.widget.ProgressBar;
 
 import com.jailson.mylist.R;
-import com.jailson.mylist.object.User;
 
 public class SplashActivity extends AppCompatActivity {
 
@@ -34,24 +33,17 @@ public class SplashActivity extends AppCompatActivity {
     private void mostrarLogin() {
 
         SharedPreferences sharedPreferences = getSharedPreferences("id", Context.MODE_PRIVATE);
-        int id = sharedPreferences.getInt("id", -1);
+        String id = sharedPreferences.getString("id", "");
 
-        if(id == -1) {
+        if(id.equals("")) {
 
             Intent intent = new Intent(SplashActivity.this, LoginActivity.class);
             startActivity(intent);
             finish();
         }else{
 
-            sharedPreferences = getSharedPreferences("name", Context.MODE_PRIVATE);
-            String name = sharedPreferences.getString("name", "");
-            sharedPreferences = getSharedPreferences("email", Context.MODE_PRIVATE);
-            String email = sharedPreferences.getString("email", "");
-
-            User user = new User(id, name, email, "");
-
             Intent intent = new Intent(SplashActivity.this, ListsActivity.class);
-            intent.putExtra("user", user);
+            intent.putExtra("id_user", id);
             startActivity(intent);
             finish();
         }

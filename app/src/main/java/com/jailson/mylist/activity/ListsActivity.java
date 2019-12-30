@@ -38,20 +38,30 @@ public class ListsActivity extends AppCompatActivity {
 
     private static final int ACTIVITY_ADDLIST_REQUEST = 1;
 
+    private String id_user;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lists);
 
-        //getSupportActionBar().setDisplayHomeAsUpEnabled(true); //Show button
-        //getSupportActionBar().setHomeButtonEnabled(true); //Activate button
+        //this.user = (User) getIntent().getSerializableExtra("user");
+        this.id_user = getIntent().getStringExtra("id_user");
+        Toast.makeText(this, "Welcome, " + get_name(this.id_user), Toast.LENGTH_LONG).show();
 
-        this.user = (User) getIntent().getSerializableExtra("user");
+        this.user = new User(1, "JJ", "sasa", "asas");//TEMP
 
         init_views();
         get_lists();
         clicks();
+    }
+
+    private String get_name(String id_user) {
+
+
+
+        return "";
     }
 
     private void clicks() {
