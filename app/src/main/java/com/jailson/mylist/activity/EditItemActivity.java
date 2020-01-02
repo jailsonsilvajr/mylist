@@ -1,5 +1,6 @@
 package com.jailson.mylist.activity;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.AsyncTask;
@@ -11,10 +12,16 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.jailson.mylist.R;
 import com.jailson.mylist.object.Item;
 import com.jailson.mylist.service.Service;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class EditItemActivity extends AppCompatActivity {
 
@@ -135,24 +142,32 @@ public class EditItemActivity extends AppCompatActivity {
         @Override
         protected Boolean doInBackground(Void... voids) {
 
-            return service.updateItem(this.item);
-        }
+            FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-        @Override
-        protected void onPostExecute(Boolean aBoolean) {
+            Map<String, String> map = new HashMap<>();
+            map.put("name", item.getName());
+            map.put("mark", item.getMark());
+            map.put("price", Double.toString(item.getPrice()));
+            map.put("quantity", Integer.toString(item.getQtd()));
+            map.put("id_list", item.getId_list());
+            map.put("into_cart", Integer.toString(item.getInto_cart()));
 
-            if(aBoolean){
+            db.collection("items").document(item.getId()).set(map).addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
 
-                setResult(RESULT_OK);
-                finish();
-            }else{
+                    if(task.isSuccessful()){
 
-                Toast.makeText(EditItemActivity.this, "Fail add", Toast.LENGTH_LONG).show();
-            }
+                        setResult(RESULT_OK);
+                        finish();
+                    }else{
 
-            super.onPostExecute(aBoolean);
+                        Toast.makeText(EditItemActivity.this, "Fail add", Toast.LENGTH_LONG).show();
+                    }
+                }
+            });
+
+            return null;
         }
     }
-
-
 }

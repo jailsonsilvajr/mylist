@@ -8,6 +8,13 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.jailson.mylist.R;
 import com.jailson.mylist.service.Service;
 
@@ -42,7 +49,7 @@ public class AdapterLists extends BaseAdapter {
     @Override
     public long getItemId(int position) {
 
-        return this.lists.get(position).getId();
+        return 0;
     }
 
     @Override
@@ -84,22 +91,40 @@ public class AdapterLists extends BaseAdapter {
         @Override
         protected Boolean doInBackground(Void... voids) {
 
-            return service.deleteList(lists.get(position).getId());
-        }
+            final FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-        @Override
-        protected void onPostExecute(Boolean result) {
+            db.collection("items").whereEqualTo("id_list", lists.get(position).getId())
+                    .get()
+                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
 
-            if(result){
+                            if(task.isSuccessful()){
 
-                lists.remove(position);
-                AdapterLists adapterLists = AdapterLists.this;
-                adapterLists.notifyDataSetChanged();
-            }else{
+                                for(DocumentSnapshot document : task.getResult()){
+
+                                    db.collection("items").document(document.getId()).delete();
+                                }
+                            }
+                        }
+                    });
+
+            db.collection("lists").document(lists.get(position).getId()).delete().addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+
+                    if(task.isSuccessful()){
+
+                        lists.remove(position);
+                        AdapterLists adapterLists = AdapterLists.this;
+                        adapterLists.notifyDataSetChanged();
+                    }else{
 
 
-            }
-            super.onPostExecute(result);
+                    }
+                }
+            });
+            return null;
         }
     }
 }

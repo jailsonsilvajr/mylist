@@ -4,16 +4,16 @@ import java.io.Serializable;
 
 public class Item implements Serializable {
 
-    private int id;
+    private String id;
     private String name;
     private String mark;
     private double price;
     private int quantity;
-    private int id_list;
+    private String id_list;
     private int into_cart;
     private String url_img;
 
-    public Item(int id, String name, String mark, double price, int quantity, int id_list, int into_cart, String url_img) {
+    public Item(String id, String name, String mark, double price, int quantity, String id_list, int into_cart, String url_img) {
         this.id = id;
         this.name = name;
         this.mark = mark;
@@ -24,11 +24,11 @@ public class Item implements Serializable {
         this.url_img = url_img;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -64,11 +64,11 @@ public class Item implements Serializable {
         this.quantity = qtd;
     }
 
-    public int getId_list() {
+    public String getId_list() {
         return id_list;
     }
 
-    public void setId_list(int id_list) {
+    public void setId_list(String id_list) {
         this.id_list = id_list;
     }
 

@@ -20,10 +20,15 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.jailson.mylist.R;
 import com.jailson.mylist.firebase.FireConnection;
 import com.jailson.mylist.object.User;
 import com.jailson.mylist.service.Service;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -150,6 +155,12 @@ public class RegisterActivity extends AppCompatActivity {
                         public void onComplete(@NonNull Task<AuthResult> task) {
 
                             if(task.isSuccessful()){
+
+                                FirebaseFirestore db = FirebaseFirestore.getInstance();
+                                Map<String, String> dataObj = new HashMap<>();
+                                dataObj.put("name", name);
+                                db.collection("users").document(firebaseAuth.getCurrentUser().getUid())
+                                        .set(dataObj);
 
                                 SharedPreferences sharedPreferences = getSharedPreferences("id", Context.MODE_PRIVATE);
                                 SharedPreferences.Editor editor = sharedPreferences.edit();

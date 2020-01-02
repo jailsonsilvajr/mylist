@@ -23,10 +23,19 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.jailson.mylist.R;
 import com.jailson.mylist.object.Item;
 import com.jailson.mylist.object.List;
 import com.jailson.mylist.service.Service;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class CartActivity extends AppCompatActivity {
 
@@ -287,9 +296,9 @@ public class CartActivity extends AppCompatActivity {
 
     private class GetItemsCart extends AsyncTask<Void, Void, java.util.List<Item> >{
 
-        private int id_list;
+        private String id_list;
 
-        public GetItemsCart(int id_list){
+        public GetItemsCart(String id_list){
 
             this.id_list = id_list;
         }
@@ -302,36 +311,50 @@ public class CartActivity extends AppCompatActivity {
         @Override
         protected java.util.List<Item> doInBackground(Void... voids) {
 
-            return service.getItens(this.id_list);
-        }
+            FirebaseFirestore db = FirebaseFirestore.getInstance();
+            db.collection("items").whereEqualTo("id_list", id_list).whereEqualTo("into_cart", "1")
+                    .get()
+                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
 
-        @Override
-        protected void onPostExecute(java.util.List<Item> result) {
+                            if (task.isSuccessful()) {
 
-            if(result != null) {
+                                java.util.List<Item> items_into_cart_temp = new ArrayList<>();
+                                for (QueryDocumentSnapshot document : task.getResult()) {
 
-                for(int i = 0; i < result.size(); i++){
+                                    Item item = new Item(
+                                            document.getId(),
+                                            document.get("name").toString(),
+                                            document.get("mark").toString(),
+                                            Double.parseDouble(document.get("price").toString()),
+                                            Integer.parseInt(document.get("quantity").toString()),
+                                            document.get("id_list").toString(),
+                                            Integer.parseInt(document.get("into_cart").toString()),
+                                            null
+                                    );
+                                    items_into_cart_temp.add(item);
+                                }
+                                items = items_into_cart_temp;
+                                if(recyclerCartAdapter != null){
 
-                    if(result.get(i).getInto_cart() == 0) result.remove(i);
-                }
+                                    recyclerCartAdapter.setListItems(items);
+                                    recyclerCartAdapter.notifyDataSetChanged();
+                                }else{
 
-                items = result;
+                                    recyclerCartAdapter = new RecyclerCartAdapter(items, getApplicationContext(), service);
+                                    recyclerView_cart.setAdapter(recyclerCartAdapter);
+                                    ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new Swipe(recyclerCartAdapter));
+                                    itemTouchHelper.attachToRecyclerView(recyclerView_cart);
+                                }
 
-                if(recyclerCartAdapter != null){
+                            }else{
 
-                    recyclerCartAdapter.setListItems(items);
-                    recyclerCartAdapter.notifyDataSetChanged();
-                }else{
-
-                    recyclerCartAdapter = new RecyclerCartAdapter(items, getApplicationContext(), service);
-                    recyclerView_cart.setAdapter(recyclerCartAdapter);
-                    ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new Swipe(recyclerCartAdapter));
-                    itemTouchHelper.attachToRecyclerView(recyclerView_cart);
-                }
-            }
-            else Toast.makeText(CartActivity.this, "Fail", Toast.LENGTH_LONG).show();
-
-            super.onPostExecute(result);
+                                Toast.makeText(CartActivity.this, "Fail", Toast.LENGTH_LONG).show();
+                            }
+                        }
+                    });
+            return null;
         }
     }
 
@@ -353,16 +376,25 @@ public class CartActivity extends AppCompatActivity {
 
         @Override
         protected Boolean doInBackground(Void... voids) {
-            return service.deleteItem(this.item);
-        }
 
-        @Override
-        protected void onPostExecute(Boolean result) {
+            FirebaseFirestore db = FirebaseFirestore.getInstance();
+            db.collection("items").document(this.item.getId()).delete()
+                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
 
-            items.remove(position);
-            recyclerCartAdapter.notifyItemRemoved(position);
+                            if(task.isSuccessful()){
 
-            super.onPostExecute(result);
+                                items.remove(position);
+                                recyclerCartAdapter.notifyItemRemoved(position);
+                            }else{
+
+
+                            }
+                        }
+                    });
+
+            return null;
         }
     }
 
@@ -384,17 +416,33 @@ public class CartActivity extends AppCompatActivity {
 
         @Override
         protected Boolean doInBackground(Void... voids) {
-            return service.updateItem(this.item);
-        }
 
-        @Override
-        protected void onPostExecute(Boolean result) {
+            FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-            if(result) getItems();
-            else this.item.setInto_cart(1);
+            Map<String, String> map = new HashMap<>();
+            map.put("name", item.getName());
+            map.put("mark", item.getMark());
+            map.put("price", Double.toString(item.getPrice()));
+            map.put("quantity", Integer.toString(item.getQtd()));
+            map.put("id_list", item.getId_list());
+            map.put("into_cart", Integer.toString(item.getInto_cart()));
 
-            recyclerCartAdapter.notifyDataSetChanged();
-            super.onPostExecute(result);
+            db.collection("items").document(item.getId()).set(map).addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+
+                    if(task.isSuccessful()){
+
+                        getItems();
+                    }else{
+
+                        item.setInto_cart(1);
+                    }
+                    recyclerCartAdapter.notifyDataSetChanged();
+                }
+            });
+
+            return null;
         }
     }
 }

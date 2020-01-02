@@ -37,7 +37,7 @@ public class AdapterItens extends BaseAdapter {
     @Override
     public long getItemId(int position) {
 
-        return this.itens.get(position).getId();
+        return 0;
     }
 
     @Override

@@ -25,14 +25,21 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.jailson.mylist.R;
 import com.jailson.mylist.object.Item;
 import com.jailson.mylist.object.List;
 import com.jailson.mylist.service.Service;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ItemsActivity extends AppCompatActivity {
 
@@ -94,9 +101,9 @@ public class ItemsActivity extends AppCompatActivity {
     private void count_value() {
 
         this.value = 0.0;
-        for(int i = 0; i < this.items.size(); i++) {
+        for(int i = 0; i < this.items_in_cart.size(); i++) {
 
-            if(this.items.get(i).getInto_cart() != 0) this.value += (this.items.get(i).getPrice() * this.items.get(i).getQtd());
+            this.value += (this.items_in_cart.get(i).getPrice() * this.items_in_cart.get(i).getQtd());
         }
         if(this.value != 0.0) this.textview_price_into_cart.setText("R$: " + this.df.format(this.value));
         else this.textview_price_into_cart.setText("R$: 0.00");
@@ -165,11 +172,11 @@ public class ItemsActivity extends AppCompatActivity {
 
     private class GetItems extends AsyncTask<Void, Void, java.util.List<Item> >{
 
-        private int id_item;
+        private String id_list;
 
-        public GetItems(int id_item){
+        public GetItems(String id_list){
 
-            this.id_item = id_item;
+            this.id_list = id_list;
         }
 
         @Override
@@ -180,32 +187,55 @@ public class ItemsActivity extends AppCompatActivity {
         @Override
         protected java.util.List<Item> doInBackground(Void... voids) {
 
-            return service.getItens(this.id_item);
-        }
+            FirebaseFirestore db = FirebaseFirestore.getInstance();
+            db.collection("items").whereEqualTo("id_list", id_list)
+                    .get()
+                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
 
-        @Override
-        protected void onPostExecute(java.util.List<Item> result) {
+                            if(task.isSuccessful()){
 
-            if(result != null) {
+                                java.util.List<Item> items_no_cart_temp = new ArrayList<>();
+                                java.util.List<Item> items_into_cart_temp = new ArrayList<>();
+                                for(QueryDocumentSnapshot document : task.getResult()){
 
-                items = result;
-                count_value();
+                                    Item item = new Item(
+                                            document.getId(),
+                                            document.get("name").toString(),
+                                            document.get("mark").toString(),
+                                            Double.parseDouble(document.get("price").toString()),
+                                            Integer.parseInt(document.get("quantity").toString()),
+                                            id_list,
+                                            Integer.parseInt(document.get("into_cart").toString()),
+                                            null
+                                    );
+                                    if(document.get("into_cart").toString().equals("0")) items_no_cart_temp.add(item);
+                                    else items_into_cart_temp.add(item);
+                                }
+                                items = items_no_cart_temp;
+                                items_in_cart = items_into_cart_temp;
+                                count_value();
 
-                if(recyclerItemsAdapter != null){
+                                if(recyclerItemsAdapter != null){
 
-                    recyclerItemsAdapter.setListItems(items);
-                    recyclerItemsAdapter.notifyDataSetChanged();
-                }else{
+                                    recyclerItemsAdapter.setListItems(items);
+                                    recyclerItemsAdapter.notifyDataSetChanged();
+                                }else{
 
-                    recyclerItemsAdapter = new RecyclerItemsAdapter(items, getApplicationContext(), service);
-                    recyclerView_items.setAdapter(recyclerItemsAdapter);
-                    ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new Swipe(recyclerItemsAdapter));
-                    itemTouchHelper.attachToRecyclerView(recyclerView_items);
-                }
-            }
-            else Toast.makeText(ItemsActivity.this, "Fail", Toast.LENGTH_LONG).show();
+                                    recyclerItemsAdapter = new RecyclerItemsAdapter(items, getApplicationContext(), service);
+                                    recyclerView_items.setAdapter(recyclerItemsAdapter);
+                                    ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new Swipe(recyclerItemsAdapter));
+                                    itemTouchHelper.attachToRecyclerView(recyclerView_items);
+                                }
+                            }else{
 
-            super.onPostExecute(result);
+
+                            }
+                        }
+                    });
+
+            return null;
         }
     }
 
@@ -227,17 +257,26 @@ public class ItemsActivity extends AppCompatActivity {
 
         @Override
         protected Boolean doInBackground(Void... voids) {
-            return service.deleteItem(this.item);
-        }
 
-        @Override
-        protected void onPostExecute(Boolean result) {
+            FirebaseFirestore db = FirebaseFirestore.getInstance();
+            db.collection("items").document(this.item.getId()).delete()
+                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
 
-            items.remove(position);
-            recyclerItemsAdapter.notifyItemRemoved(position);
-            count_value();
+                            if(task.isSuccessful()){
 
-            super.onPostExecute(result);
+                                items.remove(position);
+                                recyclerItemsAdapter.notifyItemRemoved(position);
+                                count_value();
+                            }else{
+
+
+                            }
+                        }
+                    });
+
+            return null;
         }
     }
 
@@ -259,21 +298,34 @@ public class ItemsActivity extends AppCompatActivity {
 
         @Override
         protected Boolean doInBackground(Void... voids) {
-            return service.updateItem(this.item);
-        }
 
-        @Override
-        protected void onPostExecute(Boolean result) {
+            FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-            if(result) {
+            Map<String, String> map = new HashMap<>();
+            map.put("name", item.getName());
+            map.put("mark", item.getMark());
+            map.put("price", Double.toString(item.getPrice()));
+            map.put("quantity", Integer.toString(item.getQtd()));
+            map.put("id_list", item.getId_list());
+            map.put("into_cart", Integer.toString(item.getInto_cart()));
 
-                getItems();
-                count_value();
-            }
-            else this.item.setInto_cart(0);
+            db.collection("items").document(item.getId()).set(map).addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
 
-            recyclerItemsAdapter.notifyDataSetChanged();
-            super.onPostExecute(result);
+                    if(task.isSuccessful()){
+
+                        getItems();
+                        count_value();
+                    }else{
+
+                        item.setInto_cart(0);
+                    }
+                    recyclerItemsAdapter.notifyDataSetChanged();
+                }
+            });
+
+            return null;
         }
     }
 

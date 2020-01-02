@@ -1,5 +1,6 @@
 package com.jailson.mylist.activity;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.AsyncTask;
@@ -7,21 +8,24 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.jailson.mylist.R;
-import com.jailson.mylist.object.User;
-import com.jailson.mylist.service.Service;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class AddListActivity extends AppCompatActivity {
 
     private TextInputLayout textInputLayout_name;
     private Button button_add_list;
 
-    private Service service;
-    private User user;
+    private String id_user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,8 +35,7 @@ public class AddListActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true); //Show button
         getSupportActionBar().setHomeButtonEnabled(true); //Activate button
 
-        this.service = new Service();
-        this.user = (User) getIntent().getSerializableExtra("user");
+        this.id_user = getIntent().getStringExtra("id_user");
 
         init_views();
         click_button_add();
@@ -44,7 +47,7 @@ public class AddListActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                new AddList(textInputLayout_name.getEditText().getText().toString(), user.getId()).execute();
+                new AddList(textInputLayout_name.getEditText().getText().toString(), id_user).execute();
             }
         });
     }
@@ -70,9 +73,9 @@ public class AddListActivity extends AppCompatActivity {
     private class AddList extends AsyncTask<Void, Void, Boolean> {
 
         private String name;
-        private int id_user;
+        private String id_user;
 
-        public AddList(String name, int id_user){
+        public AddList(String name, String id_user){
 
             this.name = name;
             this.id_user = id_user;
@@ -86,18 +89,26 @@ public class AddListActivity extends AppCompatActivity {
         @Override
         protected Boolean doInBackground(Void... voids) {
 
-            return service.addList(this.name, this.id_user);
-        }
+            FirebaseFirestore db = FirebaseFirestore.getInstance();
+            Map<String, String> dataObj = new HashMap<>();
+            dataObj.put("name", this.name);
+            dataObj.put("id_user", this.id_user);
+            db.collection("lists").add(dataObj).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
+                @Override
+                public void onComplete(@NonNull Task<DocumentReference> task) {
 
-        @Override
-        protected void onPostExecute(Boolean aBoolean) {
+                    if(task.isSuccessful()){
 
-            if(aBoolean){
-                setResult(RESULT_OK);
-                finish();
-            }
-            else Toast.makeText(AddListActivity.this, "Fail Add", Toast.LENGTH_LONG).show();
-            super.onPostExecute(aBoolean);
+                        setResult(RESULT_OK);
+                        finish();
+                    }else{
+
+                        Toast.makeText(AddListActivity.this, "Fail Add", Toast.LENGTH_LONG).show();
+                    }
+                }
+            });
+
+            return null;
         }
     }
 }
