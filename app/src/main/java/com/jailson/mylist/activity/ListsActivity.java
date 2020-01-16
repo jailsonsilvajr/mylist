@@ -31,6 +31,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.jailson.mylist.R;
 import com.jailson.mylist.util.AdapterLists;
+import com.jailson.mylist.views.login.LoginView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -150,7 +151,7 @@ public class ListsActivity extends AppCompatActivity {
             editor = sharedPreferences.edit().remove("email");
             editor.apply();
 
-            Intent intent = new Intent(ListsActivity.this, LoginActivity.class);
+            Intent intent = new Intent(ListsActivity.this, LoginView.class);
             startActivity(intent);
             finish();
         }
