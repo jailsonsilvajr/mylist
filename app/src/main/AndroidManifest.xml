@@ -25,9 +25,9 @@
         <activity
             android:name=".views.login.LoginView"
             android:theme="@style/NoActionBar"
-            android:windowSoftInputMode="stateHidden"></activity>
+            android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name=".activity.RegisterActivity"
+            android:name=".views.register.RegisterView"
             android:label="@string/register2"
             android:windowSoftInputMode="stateHidden" />
         <activity
