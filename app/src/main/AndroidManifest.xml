@@ -31,7 +31,7 @@
             android:label="@string/register2"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name=".activity.ListsActivity"
+            android:name=".views.lists.ListsView"
             android:label="@string/lists" />
         <activity
             android:name=".activity.ItemsActivity"

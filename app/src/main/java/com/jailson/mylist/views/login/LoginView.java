@@ -1,6 +1,5 @@
 package com.jailson.mylist.views.login;
 
-import com.jailson.mylist.activity.ListsActivity;
 import com.jailson.mylist.mvps.LoginMVP;
 
 import android.content.Context;
@@ -19,6 +18,7 @@ import android.widget.Toast;
 import com.google.android.material.textfield.TextInputLayout;
 import com.jailson.mylist.R;
 import com.jailson.mylist.presenters.login.LoginPresenter;
+import com.jailson.mylist.views.lists.ListsView;
 import com.jailson.mylist.views.register.RegisterView;
 
 public class LoginView extends AppCompatActivity implements LoginMVP.LoginView {
@@ -59,7 +59,7 @@ public class LoginView extends AppCompatActivity implements LoginMVP.LoginView {
         editor.putString("id", id_user);
         editor.apply();
 
-        Intent intent = new Intent(LoginView.this, ListsActivity.class);
+        Intent intent = new Intent(LoginView.this, ListsView.class);
         intent.putExtra("id_user", id_user);
         startActivity(intent);
         finish();

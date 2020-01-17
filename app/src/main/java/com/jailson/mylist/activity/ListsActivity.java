@@ -30,7 +30,7 @@ import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.jailson.mylist.R;
-import com.jailson.mylist.util.AdapterLists;
+import com.jailson.mylist.views.lists.AdapterLists;
 import com.jailson.mylist.views.login.LoginView;
 
 import java.util.ArrayList;
@@ -90,7 +90,7 @@ public class ListsActivity extends AppCompatActivity {
 
     private void show_lists() {
 
-        this.adapterLists = new AdapterLists(this.lists, this);
+        //this.adapterLists = new AdapterLists(this.lists, this);
         this.lvLists_lists.setAdapter(adapterLists);
     }
 

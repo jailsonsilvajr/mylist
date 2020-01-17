@@ -15,9 +15,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.textfield.TextInputLayout;
 import com.jailson.mylist.R;
-import com.jailson.mylist.activity.ListsActivity;
 import com.jailson.mylist.mvps.RegisterMVP;
 import com.jailson.mylist.presenters.register.RegisterPresenter;
+import com.jailson.mylist.views.lists.ListsView;
 
 public class RegisterView extends AppCompatActivity implements RegisterMVP.RegisterView {
 
@@ -51,7 +51,7 @@ public class RegisterView extends AppCompatActivity implements RegisterMVP.Regis
         editor.putString("id", id_user);
         editor.apply();
 
-        Intent intent = new Intent(getApplicationContext(), ListsActivity.class);
+        Intent intent = new Intent(getApplicationContext(), ListsView.class);
         intent.putExtra("id_user", id_user);
         startActivity(intent);
         finish();
