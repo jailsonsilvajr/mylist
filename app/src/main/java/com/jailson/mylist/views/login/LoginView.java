@@ -54,6 +54,8 @@ public class LoginView extends AppCompatActivity implements LoginMVP.LoginView {
     @Override
     public void doLogin(String id_user) {
 
+        this.progressBar_login.setVisibility(View.GONE);
+
         SharedPreferences sharedPreferences = getSharedPreferences("id", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString("id", id_user);
@@ -133,7 +135,6 @@ public class LoginView extends AppCompatActivity implements LoginMVP.LoginView {
         @Override
         protected void onPostExecute(Void aVoid) {
 
-            this.progressBar.setVisibility(View.GONE);
             super.onPostExecute(aVoid);
         }
     }

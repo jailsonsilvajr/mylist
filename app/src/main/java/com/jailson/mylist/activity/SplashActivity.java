@@ -10,6 +10,7 @@ import android.os.Handler;
 import android.widget.ProgressBar;
 
 import com.jailson.mylist.R;
+import com.jailson.mylist.views.lists.ListsView;
 import com.jailson.mylist.views.login.LoginView;
 
 public class SplashActivity extends AppCompatActivity {
@@ -43,7 +44,7 @@ public class SplashActivity extends AppCompatActivity {
             finish();
         }else{
 
-            Intent intent = new Intent(SplashActivity.this, ListsActivity.class);
+            Intent intent = new Intent(SplashActivity.this, ListsView.class);
             intent.putExtra("id_user", id);
             startActivity(intent);
             finish();
