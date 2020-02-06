@@ -12,7 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".activity.CartActivity"></activity>
+
         <activity
             android:name=".activity.SplashActivity"
             android:theme="@style/NoActionBar">
@@ -44,6 +44,7 @@
             android:name=".views.lists.AddListView"
             android:label="@string/add_list"
             android:windowSoftInputMode="stateHidden" />
+        <activity android:name=".views.cart.CartView"></activity>
         <activity
             android:name=".activity.EditItemActivity"
             android:label="@string/edit_item"

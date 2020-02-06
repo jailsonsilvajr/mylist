@@ -27,12 +27,11 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.jailson.mylist.R;
-import com.jailson.mylist.activity.AddItemActivity;
-import com.jailson.mylist.activity.CartActivity;
 import com.jailson.mylist.activity.EditItemActivity;
 import com.jailson.mylist.mvps.ItemMVP;
 import com.jailson.mylist.object.Item;
 import com.jailson.mylist.presenters.items.ItemsPresenter;
+import com.jailson.mylist.views.cart.CartView;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -91,7 +90,7 @@ public class ItemsView extends AppCompatActivity implements ItemMVP.ItemView {
             @Override
             public void onClick(View view) {
 
-                Intent intent = new Intent(getApplicationContext(), CartActivity.class);
+                Intent intent = new Intent(getApplicationContext(), CartView.class);
                 intent.putExtra("list", list);
                 startActivityForResult(intent, ACTIVITY_CART_REQUEST);
             }
