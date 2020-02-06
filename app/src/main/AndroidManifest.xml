@@ -34,7 +34,7 @@
             android:name=".views.lists.ListsView"
             android:label="@string/lists" />
         <activity
-            android:name=".activity.ItemsActivity"
+            android:name=".views.items.ItemsView"
             android:label="@string/items" />
         <activity
             android:name=".activity.AddItemActivity"

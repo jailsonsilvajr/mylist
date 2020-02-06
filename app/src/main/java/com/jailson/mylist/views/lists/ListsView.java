@@ -23,6 +23,7 @@ import com.jailson.mylist.activity.ItemsActivity;
 import com.jailson.mylist.mvps.ListMVP;
 import com.jailson.mylist.object.List;
 import com.jailson.mylist.presenters.lists.ListsPresenter;
+import com.jailson.mylist.views.items.ItemsView;
 import com.jailson.mylist.views.login.LoginView;
 
 public class ListsView extends AppCompatActivity implements ListMVP.ListView {
@@ -77,7 +78,7 @@ public class ListsView extends AppCompatActivity implements ListMVP.ListView {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
                 com.jailson.mylist.object.List list = lists.get(position);
-                Intent intent = new Intent(ListsView.this, ItemsActivity.class);
+                Intent intent = new Intent(ListsView.this, ItemsView.class);
                 intent.putExtra("list", list);
                 startActivity(intent);
             }
