@@ -46,7 +46,7 @@
             android:windowSoftInputMode="stateHidden" />
         <activity android:name=".views.cart.CartView"></activity>
         <activity
-            android:name=".activity.EditItemActivity"
+            android:name=".views.items.EditItemView"
             android:label="@string/edit_item"
             android:windowSoftInputMode="stateHidden" />
     </application>

@@ -262,7 +262,7 @@ public class ItemsView extends AppCompatActivity implements ItemMVP.ItemView {
 
         private void clickItemRecyclerView(Item item) {
 
-            Intent intent = new Intent(this.context, EditItemActivity.class);
+            Intent intent = new Intent(this.context, EditItemView.class);
             intent.putExtra("item", item);
             startActivityForResult(intent, ACTIVITY_EDITITEM_REQUEST);
         }

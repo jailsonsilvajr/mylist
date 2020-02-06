@@ -28,6 +28,7 @@ import com.jailson.mylist.activity.EditItemActivity;
 import com.jailson.mylist.mvps.CartMVP;
 import com.jailson.mylist.object.Item;
 import com.jailson.mylist.presenters.cart.CartPresenter;
+import com.jailson.mylist.views.items.EditItemView;
 
 import java.util.List;
 
@@ -146,7 +147,7 @@ public class CartView extends AppCompatActivity implements CartMVP.CartView {
 
         private void clickItemRecyclerView(Item item) {
 
-            Intent intent = new Intent(this.context, EditItemActivity.class);
+            Intent intent = new Intent(this.context, EditItemView.class);
             intent.putExtra("item", item);
             startActivityForResult(intent, ACTIVITY_EDITITEM_REQUEST);
         }
