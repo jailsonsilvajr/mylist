@@ -95,7 +95,7 @@ public class ListsView extends AppCompatActivity implements ListMVP.ListView {
 
     private void click_add_list() {
 
-        Intent intent = new Intent(this, AddListActivity.class);
+        Intent intent = new Intent(this, AddListView.class);
         intent.putExtra("id_user", this.id_user);
         startActivityForResult(intent, ACTIVITY_ADDLIST_REQUEST);
     }

@@ -41,7 +41,7 @@
             android:label="@string/add_item"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name=".activity.AddListActivity"
+            android:name=".views.lists.AddListView"
             android:label="@string/add_list"
             android:windowSoftInputMode="stateHidden" />
         <activity
