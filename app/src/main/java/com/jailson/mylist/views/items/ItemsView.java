@@ -119,7 +119,7 @@ public class ItemsView extends AppCompatActivity implements ItemMVP.ItemView {
 
     private void clickAddItem(){
 
-        Intent intent = new Intent(this, AddItemActivity.class);
+        Intent intent = new Intent(this, AddItemView.class);
         intent.putExtra("list", this.list);
         startActivityForResult(intent, ACTIVITY_ADDITEM_REQUEST);
     }

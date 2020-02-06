@@ -37,7 +37,7 @@
             android:name=".views.items.ItemsView"
             android:label="@string/items" />
         <activity
-            android:name=".activity.AddItemActivity"
+            android:name=".views.items.AddItemView"
             android:label="@string/add_item"
             android:windowSoftInputMode="stateHidden" />
         <activity
